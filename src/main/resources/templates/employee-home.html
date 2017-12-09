@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<!--&lt;!&ndash;[if IE 8 ]>-->
+<!--<html class="ie ie8" lang="en"> <![endif]&ndash;&gt;-->
+<!--&lt;!&ndash;[if (gte IE 9)|!(IE)]>&lt;!&ndash;>-->
+<!--<html lang="en"> &lt;!&ndash;<![endif]&ndash;&gt;-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorator="layout/home">
+
+<section layout:fragment="content" th:remove="tag">
+
+    <form
+            th:action="@{/employee/edit-account}"
+            th:object="${employee}"
+            method="post" class="register">
+        <div class="container">
+
+            <!-- Categories -->
+            <div class="container">
+                <div class="sixteen columns">
+                    <h3 class="margin-bottom-25">Vacation summary for last 18 months</h3>
+                    <ul id="popular-categories">
+
+                        <li><a href="#"><i class="ln  ln-icon-Present"></i> Vacation earned (last 18 months)<i
+                                th:text="${employee.vacationEarnedFromIndate}"></i></a></li>
+                        <li><a href="#"><i class="ln ln-icon-Summer"></i> Vacation taken (last 18 months)<i
+                                th:text="${employee.balancedVacationConsumption.vacationTakenFromIndate}"></i></a></li>
+
+                        <li><a href="#"><i class="ln  ln-icon-Tongue"></i> Vacation left (last 18 months)<i
+                                th:text="${employee.balancedVacationConsumption.vacationLeftFromIndate}"></i></a></li>
+                        <li><a href="#"><i class="ln  ln-icon-Dashboard"></i> Vacation in advance (last 18 months)<i
+                                th:text="${employee.balancedVacationConsumption.vacationInAdvanceFromIndate}"></i></a>
+                        </li>
+                        <li><a href="#"><i class="ln  ln-icon-Present"></i> Vacation earned (before 18 months)<i
+                                th:text="${employee.vacationEarnedFromOutdated}"></i></a></li>
+                        <li><a href="#"><i class="ln ln-icon-Summer"></i> Vacation taken (before 18 months)<i
+                                th:text="${employee.balancedVacationConsumption.vacationTakenFromOutDate}"></i></a></li>
+                        <li><a href="#"><i class="ln  ln-icon-Tongue"></i> Vacation left (before 18 months)<i
+                                th:text="${employee.balancedVacationConsumption.vacationLeftFromOutdate}"></i></a></li>
+                        <li><a href="#"><i class="ln  ln-icon-Dashboard"></i> Vacation in advance (before 18 months)<i
+                                th:text="${employee.balancedVacationConsumption.vacationInAdvanceFromOutDate}"></i></a>
+                        </li>
+                        <li><a href="#"><i class="ln  ln-icon-Data-Key"></i> Missed key<i
+                                th:text="${employee.timeOffSummary['Missed Key']}"></i></a></li>
+                        <li><a href="#"><i class="ln  ln-icon-United-Kingdom"></i> Business trip<i
+                                th:text="${employee.timeOffSummary['Business Trip']}"></i></a></li>
+                        <li><a href="#"><i class="ln  ln-icon-Ambulance"></i> Medical leave<i
+                                th:text="${employee.timeOffSummary['Medical Leave']}"></i></a></li>
+                        <li><a href="#"><i class="ln  ln-icon-Present"></i> Working from home<i
+                                th:text="${employee.timeOffSummary['Working From Home']}"></i></a></li>
+                        <li><a href="#"><i class="ln ln-icon-Video-GameController"></i> Days-0ff taken<i
+                                th:text="${employee.overallTimeOffTaken}"></i></a></li>
+                    </ul>
+
+                    <div class="clearfix"></div>
+                    <div class="margin-top-30"></div>
+
+                    <a href="browse-categories.html" class="button">Details</a>
+                    <div class="clearfix"></div>
+                    <div class="margin-top-30"></div>
+                    <div>
+                        <a href="#small-dialog" class="popup-with-zoom-anim button">Request Time-Off</a>
+                    </div>
+                    <div class="margin-bottom-50"></div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <!--</form>-->
+    <div id="small-dialog" class="zoom-anim-dialog mfp-hide apply-popup">
+        <div class="small-dialog-headline">
+            <h2>Request Time-off</h2>
+        </div>
+        <div class="small-dialog-content">
+            <form th:action="@{/employee/request-time-off}" method="post" id="requestForm">
+                <div th:object="${employee}">
+                    <div class="form-group">
+                        <input th:field="*{newIndividualTimeOff.start}" style="position: relative; z-index: 100000;"
+                               type="text" id="start" name="start" class="form-control date-input" placeholder="Start"
+                               tabindex="-1"/>
+                    </div>
+                    <div class="form-group">
+                        <input th:field="*{newIndividualTimeOff.end}" style="position: relative; z-index: 100000;"
+                               type="text" id="end" name="end" class="form-control date-input" placeholder="End"
+                               tabindex="-1"/>
+                    </div>
+                    <div class="widget required-field">
+                        <h5>Don't forget to select time-off type</h5>
+                            <select th:required="required" th:field="*{newIndividualTimeOff.reason}" class="chosen-select-no-single required" id="reason" name="reason">
+                            <!--<option value="none">Please select</option>-->
+                            <option th:each="type : ${timeOffTypes}" th:value="${type.getId()}" th:selected="${type}"
+                                    th:text="${type.getTitle()}">
+                            </option>
+                        </select>
+                        <p th:each="error: ${#fields.errors('newIndividualTimeOff.reason')}" th:text="${error}"
+                           style="font-size: 20; color: #FF1C19;" id="timeOffTypeError">Validation error</p>
+                    </div>
+                    <div class="form-group">
+                        <input id="comment" th:field="*{newIndividualTimeOff.comment}" class="form-control search-field"
+                               type="text" placeholder="Comment" value=""/>
+                    </div>
+                </div>
+                <div class="margin-top-20"></div>
+                <div class="divider"></div>
+                <button type="submit" class="send">SEND</button>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+<th:block layout:fragment="script">
+    <script>
+        $(document).ready(function () {
+//            $('.date-input').datetimepicker({
+            $('.date-input').datepicker({
+                dateFormat: "yy-MM-dd",
+//                timeFormat: "HH:mm",
+                onSelect: function () {
+                    $(this).datepicker("hide");
+                }
+            });
+
+            $('#requestForm').validate({
+                submitHandler: function (form) {
+                    $(form).submit();
+                    return false;
+                },
+                invalidHandler: function () {
+                    debugger;
+                }
+            });
+
+            $('#start').rules("add", {
+                required: true,
+                messages: {
+                    required: "Start date is required"
+                }
+            });
+            $('#end').rules("add", {
+                required: true,
+                messages: {
+                    required: "End date is required"
+                }
+            });
+            $('#reason').rules("add", {
+                required: {
+                    depends: function(element) {
+                        var val = $("#reason").val();
+                        console.log(val);
+                        console.log(val !== "none");
+                        return val !== "none";
+                    }
+                },
+                messages: {
+                    required: "Time off type is required."
+                }
+            });
+
+        });
+    </script>
+</th:block>
+</html>
