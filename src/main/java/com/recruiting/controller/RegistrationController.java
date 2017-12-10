@@ -66,4 +66,9 @@ public class RegistrationController {
         return "redirect:/login";
     }
 
+    @RequestMapping(value = "/under-construction")
+    public String underConstruction() {
+        return "under-construction-home";
+    }
+
 }

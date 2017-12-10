@@ -32,6 +32,11 @@ public class TimeOffServiceImpl implements TimeOffService {
     }
 
     @Override
+    public List<TimeOffType> getValidTimeOffTypes() {
+        return timeOffTypeRepository.findAllByIsValidTrue();
+    }
+
+    @Override
     public TimeOffType findById(Long id) {
         return timeOffTypeRepository.findOne(id);
     }

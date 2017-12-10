@@ -16,6 +16,8 @@ public interface TimeOffService {
 
     List<TimeOffType> getTimeOffTypes();
 
+    List<TimeOffType> getValidTimeOffTypes();
+
     TimeOffType findById(Long id);
 
 

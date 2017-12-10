@@ -4,7 +4,6 @@ import com.recruiting.domain.IndividualTimeOff;
 import com.recruiting.service.employee.EmployeeDetailService;
 import com.recruiting.service.employee.dto.model.EmployeeDetailsModel;
 import com.recruiting.service.entity.TimeOffService;
-import com.recruiting.utils.ConstantLabels;
 import com.recruiting.validation.EmployeeDetailsModelValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -45,7 +43,7 @@ public class EmployeeController extends AbstractController {
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String account(Model model) {
         model.addAttribute("employee", employeeDetailService.getEmployeeDetailsModel(getAuthorizedUser().getId()));
-        model.addAttribute("timeOffTypes", timeOffService.getTimeOffTypes());
+        model.addAttribute("timeOffTypes", timeOffService.getValidTimeOffTypes());
 
         return "employee-home";
     }
@@ -58,13 +56,6 @@ public class EmployeeController extends AbstractController {
         individualTimeOff.setUser(getAuthorizedUser());
         timeOffService.saveIndividualTimeOff(employeeDetailsModel.getNewIndividualTimeOff());
         return "redirect:/employee/home";
-    }
-
-    @RequestMapping(value = "/edit-account", method = RequestMethod.GET)
-    public String editAccount(ModelMap model) {
-        model.put("candidateUsername", getAuthorizedUser().getUsername());
-        model.put("timePeriods", ConstantLabels.TIME_PERIODS_LIST);
-        return "redirect:/edit-account/candidate";
     }
 
     @RequestMapping(value = "/details", method = RequestMethod.GET)

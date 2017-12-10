@@ -117,19 +117,19 @@ public class AdminController extends AbstractController {
     @RequestMapping(value = "/employees/time-off-request/approve/{id}", method = RequestMethod.GET)
     public String approveTimeOff(@PathVariable("id") Long id) {
         timeOffService.approveTimeOff(id);
-        return "redirect:/admin/employees/time-off-requests/";
+        return "redirect:/admin";
     }
 
     @RequestMapping(value = "/employees/time-off/delete/{id}", method = RequestMethod.GET)
     public String deleteTimeOff(@PathVariable("id") Long id) {
         timeOffService.deleteTimeOff(id);
-        return "redirect:/admin/employees/time-off-requests/";
+        return "redirect:/admin";
     }
 
     @RequestMapping(value = "/employees/time-off/dispose/{id}", method = RequestMethod.GET)
     public String disposeTimeOff(@PathVariable("id") Long id) {
         timeOffService.disposeTimeOff(id);
-        return "redirect:/admin/employees/time-off-requests/";
+        return "redirect:/admin";
     }
 
     @RequestMapping(value = "/company-configurations", method = RequestMethod.GET)

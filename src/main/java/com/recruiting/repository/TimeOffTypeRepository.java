@@ -12,5 +12,4 @@ public interface TimeOffTypeRepository extends BaseRepository<TimeOffType> {
     TimeOffType findByTitle(final String title);
 
     List<TimeOffType> findAllByIsValidTrue();
-
 }

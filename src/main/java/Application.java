@@ -17,8 +17,62 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 @ComponentScan("com.recruiting")
 public class Application {
-    public static void main(String[] args) {
+    public static void main(String... args) throws Exception {
         SpringApplication.run(Application.class, args);
+//        RatpackServer.start(s -> s
+//                .serverConfig(c -> c
+//                        .baseDir(BaseDir.find())
+//                        .env())
+//
+//                .registry(Guice.registry(b -> b
+//                        .module(TextTemplateModule.class, conf -> conf.setStaticallyCompile(true))))
+//
+//                .handlers(chain -> chain
+//                        .get(ctx -> ctx.render(groovyTemplate("index.html")))
+//
+//                        .get("hello", ctx -> {
+//                            RelativisticModel.select();
+//                            Amount<Mass> m = Amount.valueOf("12 GeV").to(KILOGRAM);
+//                            ctx.render("E=mc^2: 12 GeV = " + m.toString());
+//                        })
+//
+//                        .get("db", ctx -> {
+//                            boolean local = !"cedar-14".equals(System.getenv("STACK"));
+//
+//                            Blocking.get(() -> {
+//                                Connection connection = null;
+//
+//                                try {
+//                                    connection = DatabaseUrl.extract(local).getConnection();
+//                                    Statement stmt = connection.createStatement();
+//                                    stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
+//                                    stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
+//                                    return stmt.executeQuery("SELECT tick FROM ticks");
+//                                } finally {
+//                                    if (connection != null) try {
+//                                        connection.close();
+//                                    } catch (SQLException e) {
+//                                    }
+//                                }
+//                            }).onError(throwable -> {
+//                                Map<String, Object> attributes = new HashMap<>();
+//                                attributes.put("message", "There was an error: " + throwable);
+//                                ctx.render(groovyTemplate(attributes, "error.html"));
+//                            }).then(rs -> {
+//                                ArrayList<String> output = new ArrayList<>();
+//                                while (rs.next()) {
+//                                    output.add("Read from DB: " + rs.getTimestamp("tick"));
+//                                }
+//
+//                                Map<String, Object> attributes = new HashMap<>();
+//                                attributes.put("results", output);
+//                                ctx.render(groovyTemplate(attributes, "db.html"));
+//                            });
+//                        })
+//
+//                        .files(f -> f.dir("public"))
+//                )
+//        );
     }
 
     @Bean(name = "encryptorBean")
