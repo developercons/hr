@@ -23,7 +23,7 @@ import org.springframework.web.servlet.view.xml.MarshallingView;
 import java.util.Locale;
 
 /**
- * Created by Martha on 5/6/2017.
+ * @author Marta Ginosyan
  */
 
 public class XmlViewResolver implements ViewResolver {

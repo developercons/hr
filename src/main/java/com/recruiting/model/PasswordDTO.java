@@ -3,8 +3,9 @@ package com.recruiting.model;
 import java.io.Serializable;
 
 /**
- * Created by Martha on 6/28/2017.
+ * @author Marta Ginosyan
  */
+
 public class PasswordDTO implements Serializable {
 
     private String newPassword;

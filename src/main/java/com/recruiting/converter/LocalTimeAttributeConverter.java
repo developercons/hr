@@ -6,8 +6,9 @@ import java.sql.Time;
 import java.time.LocalTime;
 
 /**
- * Created by garik on 30/03/17.
+ * @author Marta Ginosyan
  */
+
 @Converter(autoApply = true)
 public class LocalTimeAttributeConverter implements AttributeConverter<LocalTime, Time> {
 

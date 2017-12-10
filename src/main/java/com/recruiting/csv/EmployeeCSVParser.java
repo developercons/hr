@@ -58,6 +58,7 @@ public class EmployeeCSVParser {
         individualTimeOff.setStart(LocalDateTime.of(LocalDate.parse(data.get(2), formatter), LocalTime.of(10,0)));
         individualTimeOff.setEnd(LocalDateTime.of(LocalDate.parse(data.get(3), formatter), LocalTime.of(19,0)));
         individualTimeOff.setDisposed(Boolean.valueOf(data.get(4)));
+        individualTimeOff.setDisposed_hr(individualTimeOff.getDisposed());
         individualTimeOff.setUser(employee);
         individualTimeOff.setApproved(true);
 

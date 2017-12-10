@@ -9,8 +9,9 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by Martha on 4/25/2017.
+ * @author Marta Ginosyan
  */
+
 @Component
 public class ApplicationEventListener {
 
@@ -22,6 +23,8 @@ public class ApplicationEventListener {
     private AuthorityRepository authorityRepository;
     private WorkingHoursSchemeRepository workingHoursSchemeRepository;
     private EmployeeCSVParser employeeCSVParser;
+    private EmployeeRepository employeeRepository;
+    private IndividualTimeOffRepository individualTimeOffRepository;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -53,7 +56,17 @@ public class ApplicationEventListener {
         this.employeeCSVParser = employeeCSVParser;
     }
 
-//    @Autowired
+    @Autowired
+    public void setEmployeeRepository(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    @Autowired
+    public void setIndividualTimeOffRepository(IndividualTimeOffRepository individualTimeOffRepository) {
+        this.individualTimeOffRepository = individualTimeOffRepository;
+    }
+
+    //    @Autowired
 //    public ApplicationEventListener(UserRepository userRepository, CompanyConfigRepository companyConfigRepository, TimeOffTypeRepository timeOffTypeRepository, AuthorityRepository authorityRepository, WorkingHoursSchemeRepository workingHoursSchemeRepository, EmployeeCSVParser employeeCSVParser) {
 //        this.userRepository = userRepository;
 //        this.companyConfigRepository = companyConfigRepository;
@@ -71,6 +84,7 @@ public class ApplicationEventListener {
         DataLoader.createCompanyData(companyConfigRepository, timeOffTypeRepository, workingHoursSchemeRepository);
         DataLoader.createUserData(userRepository, authorityRepository, workingHoursSchemeRepository);
         DataLoader.loadIndividualTimeOffs(employeeCSVParser);
+        DataLoader.createNonApprovedIndividualTimeOffs(employeeRepository, individualTimeOffRepository, timeOffTypeRepository);
         DATA_LOADED = true;
 
     }

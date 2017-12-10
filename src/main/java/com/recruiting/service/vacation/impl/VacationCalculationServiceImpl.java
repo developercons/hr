@@ -1,6 +1,7 @@
 package com.recruiting.service.vacation.impl;
 
 import com.recruiting.domain.IndividualTimeOff;
+import com.recruiting.service.employee.dto.model.EmployeeDetailsModel;
 import com.recruiting.service.employee.dto.model.EmployeeModel;
 import com.recruiting.service.employee.dto.model.VacationConsumptionModel;
 import com.recruiting.service.vacation.VacationCalculationService;
@@ -13,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Marta Ginosyan
+ */
 
 @Service
 //@Transactional(readOnly = true)
@@ -20,14 +24,28 @@ import java.util.Map;
 public class VacationCalculationServiceImpl implements VacationCalculationService {
 
     @Override
-    public void calculateEmployeeVacationData(EmployeeModel model, List<IndividualTimeOff> timeOffs, Double vacationPerMonth, Double validVacationPeriod) {
+    public <T extends EmployeeModel> void calculateEmployeeModelData(T model, List<IndividualTimeOff> timeOffs, Double vacationPerMonth, Double validVacationPeriod) {
         LocalDateTime startDate = model.getJoinDate();
         LocalDateTime endDate = model.getLeaveDate();
         if (endDate == null) endDate = LocalDateTime.now();
-        Long workDurationMonths = ChronoUnit.MONTHS.between(startDate, endDate);
         Double overallVacation = calculateOverallVacationGranted(startDate, endDate, vacationPerMonth, validVacationPeriod);
 
-        LocalDateTime indatePeriodStart = LocalDateTime.now().minusMonths(validVacationPeriod.longValue());
+        model.setOverallVacationGranted(overallVacation);
+        model.setOverallDisposableVacationTaken(calculateOverAllDisposableTimeOffTaken(timeOffs));
+        model.setOverALLDisposedVacationTaken(calculateOverAllDisposedVacationTaken(timeOffs));
+        calculateOverallData(model);
+
+    }
+
+    @Override
+    public <T extends EmployeeDetailsModel> void calculateEmployeeDetailsVacationData(T model, List<IndividualTimeOff> timeOffs, Double vacationPerMonth, Double validVacationPeriod) {
+        LocalDateTime startDate = model.getJoinDate();
+        LocalDateTime endDate = model.getLeaveDate();
+        if (endDate == null) endDate = LocalDateTime.now();
+        Double overallVacation = calculateOverallVacationGranted(startDate, endDate, vacationPerMonth, validVacationPeriod);
+
+        LocalDateTime indatePeriodStart = LocalDateTime.now()
+                .minusMonths(validVacationPeriod.longValue());
         LocalDateTime indatePeriodEnd = LocalDateTime.now();
         Long indateDaysCount = ChronoUnit.DAYS.between(indatePeriodStart, indatePeriodEnd);
 
@@ -35,15 +53,14 @@ public class VacationCalculationServiceImpl implements VacationCalculationServic
         LocalDateTime outdatePeriodEnd = indatePeriodStart.minusDays(1);
         Long outDatedDaysCount = ChronoUnit.DAYS.between(outDatePeriodStart, outdatePeriodEnd);
 
-
-
+        model.setOverallVacationGranted(overallVacation);
+        model.setOverallDisposableVacationTaken(calculateOverAllDisposableTimeOffTaken(timeOffs));
+        model.setOverALLDisposedVacationTaken(calculateOverAllDisposedVacationTaken(timeOffs));
+        calculateOverallData(model);
         model.setVacationEarnedFromIndate(calculateOverallVacationFromIndate(startDate, endDate, vacationPerMonth, validVacationPeriod));
         model.setIndateDuration(Double.parseDouble(indateDaysCount.toString()));
         model.setVacationEarnedFromOutdated(calculateOverallVacationFromOutdated(startDate, endDate, vacationPerMonth, validVacationPeriod));
         model.setOutdateDuration(Double.parseDouble(outDatedDaysCount.toString()));
-        model.setOverallVacationGranted(overallVacation);
-        model.setOverallDisposableVacationTaken(calculateOverAllDisposableTimeOffTaken(timeOffs));
-        model.setOverALLDisposedVacationTaken(calculateOverAllDisposedVacationTaken(timeOffs));
         model.setOverallTimeOffTaken(calculateOverAllTimeOffTaken(timeOffs));
         model.setBalancedVacationConsumption(calculateBalancedVacationConsumption(timeOffs, model.getVacationEarnedFromIndate(), model.getVacationEarnedFromOutdated(), indatePeriodStart, indatePeriodEnd, outDatePeriodStart, outdatePeriodEnd));
         model.setDisposedFromOutdatedVacationConsumption(calcualteDisposedFromOutdateVacationConsuption(
@@ -52,6 +69,18 @@ public class VacationCalculationServiceImpl implements VacationCalculationServic
                 model.getVacationEarnedFromOutdate(),
                 model.getVacationEarnedFromIndate()));
 
+    }
+
+    private <T extends EmployeeModel> void calculateOverallData(T model) {
+        Double overallVacationGranted = model.getOverallVacationGranted();
+        Double overallVacationTaken = model.getOverallDisposableVacationTaken();
+        if (overallVacationTaken < overallVacationGranted) {
+            model.setOverallVacationLeft(overallVacationGranted - overallVacationTaken);
+            model.setOverallVacationInAdvance(0D);
+        } else {
+            model.setOverallVacationLeft(0D);
+            model.setOverallVacationInAdvance(overallVacationTaken - overallVacationGranted);
+        }
     }
 
     @Override
@@ -238,7 +267,8 @@ public class VacationCalculationServiceImpl implements VacationCalculationServic
         final Long[] overAllDisposableVacationTaken = {0L};
         individualTimeOffs.stream()
                 .filter(IndividualTimeOff::getApproved)
-                .filter(individualTimeOff -> individualTimeOff.getReason().getDisposableFromVacation())
+                .filter(individualTimeOff -> individualTimeOff.getReason()
+                        .getDisposableFromVacation())
                 .forEach(individualTimeOff -> overAllDisposableVacationTaken[0] += DateTimeUtils.calculateDays(individualTimeOff.getStart(), individualTimeOff.getEnd()));
         return Double.parseDouble(overAllDisposableVacationTaken[0].toString());
 
@@ -251,7 +281,8 @@ public class VacationCalculationServiceImpl implements VacationCalculationServic
         individualTimeOffs.stream()
                 .filter(IndividualTimeOff::getApproved)
                 .filter(IndividualTimeOff::getDisposed)
-                .filter(individualTimeOff -> individualTimeOff.getReason().getDisposableFromVacation())
+                .filter(individualTimeOff -> individualTimeOff.getReason()
+                        .getDisposableFromVacation())
                 .forEach(individualTimeOff -> overAllDisposableVacationTaken[0] += DateTimeUtils.calculateDays(individualTimeOff.getStart(), individualTimeOff.getEnd()));
         return Double.parseDouble(overAllDisposableVacationTaken[0].toString());
 
@@ -263,7 +294,8 @@ public class VacationCalculationServiceImpl implements VacationCalculationServic
         final Long[] overAllTimeOffTaken = {0L};
         individualTimeOffs.stream()
                 .filter(IndividualTimeOff::getApproved)
-                .filter(individualTimeOff -> individualTimeOff.getReason().getDisposableFromVacation())
+                .filter(individualTimeOff -> individualTimeOff.getReason()
+                        .getDisposableFromVacation())
                 .filter(individualTimeOff -> !individualTimeOff.getDisposed())
                 .forEach(individualTimeOff -> overAllTimeOffTaken[0] += DateTimeUtils.calculateDays(individualTimeOff.getStart(), individualTimeOff.getEnd()));
         return Double.parseDouble(overAllTimeOffTaken[0].toString());
@@ -276,7 +308,8 @@ public class VacationCalculationServiceImpl implements VacationCalculationServic
         final Long[] overAllVacationTaken = {0L};
         individualTimeOffs.stream()
                 .filter(IndividualTimeOff::getApproved)
-                .filter(individualTimeOff -> individualTimeOff.getReason().getDisposableFromVacation())
+                .filter(individualTimeOff -> individualTimeOff.getReason()
+                        .getDisposableFromVacation())
                 .filter(IndividualTimeOff::getDisposed)
                 .filter(individualTimeOff -> DateTimeUtils.dateIsBetweenIncludingEndPoints(startDate, endDate, individualTimeOff.getStart(), individualTimeOff.getEnd()))
                 .forEach(individualTimeOff -> overAllVacationTaken[0] += DateTimeUtils.calculateDays(individualTimeOff.getStart(), individualTimeOff.getEnd()));
@@ -289,7 +322,8 @@ public class VacationCalculationServiceImpl implements VacationCalculationServic
         final Long[] overAllTimeOffTaken = {0L};
         individualTimeOffs.stream()
                 .filter(IndividualTimeOff::getApproved)
-                .filter(individualTimeOff -> individualTimeOff.getReason().getDisposableFromVacation())
+                .filter(individualTimeOff -> individualTimeOff.getReason()
+                        .getDisposableFromVacation())
                 .filter(individualTimeOff -> !individualTimeOff.getDisposed())
                 .filter(individualTimeOff -> DateTimeUtils.dateIsBetweenIncludingEndPoints(startDate, endDate, individualTimeOff.getStart(), individualTimeOff.getEnd()))
                 .forEach(individualTimeOff -> overAllTimeOffTaken[0] += DateTimeUtils.calculateDays(individualTimeOff.getStart(), individualTimeOff.getEnd()));

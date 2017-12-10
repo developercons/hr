@@ -4,6 +4,8 @@ package com.recruiting.repository;
 import com.recruiting.domain.IndividualTimeOff;
 import com.recruiting.domain.TimeOffType;
 import com.recruiting.domain.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,5 +23,13 @@ public interface IndividualTimeOffRepository extends BaseRepository<IndividualTi
 
     List<IndividualTimeOff> findAllByStartAfterAndApprovedFalseAndUser(LocalDateTime startAfter, User user);
 
-    List<IndividualTimeOff> findAllByStartAfterAndApprovedNullAndUser(LocalDateTime startAfter, User user);
+    Page<IndividualTimeOff> findAllByApprovedFalse(Pageable pageable);
+
+    Page<IndividualTimeOff> findAllByApprovedFalseAndUser(User user, Pageable pageable);
+
+    Page<IndividualTimeOff> findAllByStartAfterAndUpdatedAtAfter(LocalDateTime startAfter, LocalDateTime updatedAfter, Pageable pageable);
+
+    Page<IndividualTimeOff> findAllByUser(User user, Pageable pageable);
+
+
 }

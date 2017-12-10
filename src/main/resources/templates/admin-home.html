@@ -3,133 +3,106 @@
 <!--<html class="ie ie8" lang="en"> <![endif]&ndash;&gt;-->
 <!--&lt;!&ndash;[if (gte IE 9)|!(IE)]>&lt;!&ndash;>-->
 <!--<html lang="en"> &lt;!&ndash;<![endif]&ndash;&gt;-->
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorator="layout/home">
-
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/home">
 <section layout:fragment="content" th:remove="tag">
-
-    <!-- Categories -->
-    <div class="container">
-        <div class="sixteen columns">
-            <h3 class="margin-bottom-25">Illustrative data</h3>
-            <ul id="popular-categories">
-                <li><a href="#"><i class="ln  ln-icon-Bar-Chart"></i> Vacation days left<i>20</i></a></li>
-                <li><a href="#"><i class="ln ln-icon-Car"></i> Vacation days taken<i>30</i></a></li>
-                <li><a href="#"><i class="ln ln-icon-Worker"></i> Days off taken<i>5</i></a></li>
-                <li><a href="#"><i class="ln ln-icon-Student-Female"></i> Medical leave taken<i>1</i></a></li>
-                <li><a href="#"><i class="ln  ln-icon-Medical-Sign"></i> Working from home taken<i>10</i></a></li>
-                <li><a href="#"><i class="ln  ln-icon-Plates"></i> Missed key taken<i>2</i></a></li>
-                <li><a href="#"><i class="ln  ln-icon-Globe"></i> Business trip taken<i>45</i></a></li>
-                <li><a href="#"><i class="ln  ln-icon-Laptop-3"></i> Maternity leave taken<i>0</i></a></li>
-            </ul>
-
-            <div class="clearfix"></div>
-            <div class="margin-top-30"></div>
-
-            <a href="browse-categories.html" class="button centered">Browse All Employees</a>
-            <div class="margin-bottom-50"></div>
+    <!-- Titlebar
+    ================================================== -->
+    <div id="titlebar">
+        <div class="container">
+            <div class="ten columns">
+                <h2>Employee overall vacation details.</h2>
+                <h2>Not disposed time-offs also considered as vacation.</h2>
+            </div>
         </div>
     </div>
+    <!-- Content
+    ================================================== -->
+    <div class="container"  th:if="${pageWrapper.getItems().size() != 0}">
+        <form th:action="@{/admin/home/employees}" th:object="${pageWrapper}" method="post" id="pageWrapper" name="pageWrapper">
 
 
-    <!--&lt;!&ndash; Content-->
-    <!--================================================== &ndash;&gt;-->
-    <!--<div class="container">-->
-        <!--<form th:action="@{/admin}"-->
-              <!--method="post" id="all" name="all">-->
+            <table class="manage-table resumes responsive-table">
 
-            <!--<input type="hidden" name="page"/>-->
-            <!--<input type="hidden" name="size"/>-->
+                <tr>
+                    <th><i class="fa fa-user"></i> Name</th>
+                    <th><i class="fa fa-calendar"></i> Join date</th>
+                    <th><i class="fa fa-envelope"></i> Vacation earned</th>
+                    <th><i class="fa fa-envelope"></i> Vacation used</th>
+                    <th><i class="fa fa-envelope"></i> Vacation left</th>
+                    <th><i class="fa fa-envelope"></i> Vacation disposed</th>
+                    <th><i class="fa fa-envelope"></i> Vacation in advance</th>
+                    <th></th>
+                </tr>
 
-            <!--&lt;!&ndash; Recent Jobs &ndash;&gt;-->
-            <!--<div class="eleven columns" id="leftPanel">-->
-                <!--<div class="padding-right">-->
+                <div th:each="cons,rowStat : ${pageWrapper.page.content}">
+                    <!-- Item #1 -->
+                    <tr>
+                        <td class="title" th:text="${cons.employeeName}"><a th:href="@{/admin/employee/preview/__${cons.employeeId}__}" th:target="_blank"></a></td>
+                        <td th:text="${#temporals.format(cons.joinDate, 'EEEE MM-dd-yyyy HH:mm')}"></td>
+                        <td th:text="${cons.overallVacationGranted}"></td>
+                        <td th:text="${cons.overallDisposableVacationTaken}"></td>
+                        <td th:text="${cons.overallVacationLeft}"></td>
+                        <td th:text="${cons.overALLDisposedVacationTaken}"></td>
+                        <td th:text="${cons.overallVacationInAdvance}"></td>
+                        <td class="action">
+                            <a th:href="@{/admin/under-construction}"><i class="fa fa-pencil"></i> Edit</a>
+                            <div class="clearfix"></div>
+                            <a th:href="@{/admin/employee/time-off-details/__${cons.employeeId}__}"><i class="fa fa-folder"></i> Show</a>
+                            <div class="clearfix"></div>
+                            <a th:href="@{/admin/under-construction}"><i class="fa fa-folder"></i> Summary</a>
+                            <div class="clearfix"></div>
+                            <a th:href="@{/admin/under-construction}" class="delete"><i class="fa fa-remove"></i> Delete</a>
+                        </td>
+                    </tr>
+                </div>
 
-                    <!--<div>-->
-                        <!--<ul class="resumes-list" th:if="${pageWrapper.getItems().size() != 0}">-->
+            </table>
 
-                            <!--<li th:each="user,rowStat : ${pageWrapper.page.content}">-->
-
-
-                                    <!--<a th:href="@{/admin/__${user.id}__}" th:target="_blank">-->
-                                        <!--<div>-->
-
-                                        <!--</div>-->
-                                        <!--<div class="resumes-list-content">-->
-                                            <!--<div th:each="role : ${user.grantedAuthorities}">-->
-                                                <!--<span><i class="ln ln-icon-User"></i></span>-->
-                                                <!--<span th:text="${role.authority}"></span>-->
-                                            <!--</div>-->
-                                            <!--<span><i class="fa fa-envelope"></i></span>-->
-                                            <!--<span th:text="${user.username}"></span>-->
-                                            <!--<span><i class="fa fa-map-marker"></i></span>-->
-                                            <!--<span th:text="${user.address.city}"><i class="fa fa-map-marker"></i></span>-->
-                                        <!--</div>-->
-
-
-                                    <!--</a>-->
-                                    <!--<div class="clearfix"></div>-->
-                            <!--</li>-->
-
-                        <!--</ul>-->
-                    <!--</div>-->
-
-
-                    <!--<div class="clearfix"></div>-->
-
-                    <!--<div class="pagination-container">-->
-                        <!--<nav class="pagination">-->
-                            <!--<ul th:if="${pageWrapper.getItems().size() != 0}">-->
-                                <!--<li th:class="${pageWrapper.hasPreviousPage}? '' : 'disabled'">-->
-                                    <!--<a th:if="${not pageWrapper.hasPreviousPage}">«</a>-->
-                                    <!--<a th:if="${pageWrapper.hasPreviousPage}"-->
-                                       <!--th:href="'javascript:navigatePage(' + ${pageWrapper.number-1} + ',' + ${pageWrapper.size} + ')'">-->
-                                        <!--«</a>-->
-                                <!--</li>-->
-                                <!--<li th:each="item : ${pageWrapper.items}"-->
-                                    <!--th:class="${item.current}? 'active' : ''">-->
-                                    <!--<a class="current-page" th:if="${item.current}" th:text="${item.number}">1</a>-->
-                                    <!--<a th:if="${not item.current}"-->
-                                       <!--th:href="'javascript:navigatePage(' + ${item.number} + ',' + ${pageWrapper.size} + ')'">-->
-                                        <!--<span th:text="${item.number}">1</span></a>-->
-                                <!--</li>-->
-                                <!--<li th:class="${pageWrapper.hasNextPage}? '' : 'disabled'">-->
-                                    <!--<a th:if="${not pageWrapper.hasNextPage}">»</a>-->
-                                    <!--<a th:if="${pageWrapper.hasNextPage}"-->
-                                       <!--th:href="'javascript:navigatePage(' + ${pageWrapper.number+1} + ',' + ${pageWrapper.size} + ')'">»</a>-->
-                                <!--</li>-->
-                            <!--</ul>-->
-                        <!--</nav>-->
-
-                        <!--<nav class="pagination-next-prev" th:if="${pageWrapper.getItems().size() != 0}">-->
-                            <!--<ul>-->
-                                <!--<li th:class="${pageWrapper.firstPage} ? 'disabled' : ''">-->
-                                    <!--<a class="prev" th:if="${pageWrapper.firstPage}">First</a>-->
-                                    <!--<a class="prev" th:if="${not pageWrapper.firstPage}"-->
-                                       <!--th:href="'javascript:navigatePage(' + 1 + ',' + ${pageWrapper.size} + ')'">-->
-                                        <!--Previous</a>-->
-                                <!--</li>-->
-
-                                <!--<li th:class="${pageWrapper.lastPage}? 'disabled' : ''">-->
-                                    <!--<a class="next" th:if="${pageWrapper.lastPage}">Last</a>-->
-                                    <!--<a class="next" th:if="${not pageWrapper.lastPage}"-->
-                                       <!--th:href="'javascript:navigatePage(' + ${pageWrapper.totalPages} + ',' + ${pageWrapper.size} + ')'">-->
-                                        <!--Next</a>-->
-                                <!--</li>-->
-                            <!--</ul>-->
-                        <!--</nav>-->
-                    <!--</div>-->
-
-
-                <!--</div>-->
-            <!--</div>-->
-        <!--</form>-->
-        <!--&lt;!&ndash; Widgets / End &ndash;&gt;-->
-    <!--</div>-->
-
-
+            <!-- Recent Jobs -->
+            <div class="eleven columns" id="leftPanel">
+                <div class="padding-right">
+                    <div class="clearfix"></div>
+                    <div class="pagination-container">
+                        <nav class="pagination">
+                            <ul th:if="${pageWrapper.getItems().size() != 0}">
+                                <li th:class="${pageWrapper.hasPreviousPage}? '' : 'disabled'">
+                                    <a th:if="${not pageWrapper.hasPreviousPage}">«</a>
+                                    <a th:if="${pageWrapper.hasPreviousPage}" th:href="'javascript:navigatePage(' + ${pageWrapper.number-1} + ',' + ${pageWrapper.size} + ')'">
+                                        «</a>
+                                </li>
+                                <li th:each="item : ${pageWrapper.items}" th:class="${item.current}? 'active' : ''">
+                                    <a class="current-page" th:if="${item.current}" th:text="${item.number}">1</a>
+                                    <a th:if="${not item.current}" th:href="'javascript:navigatePage(' + ${item.number} + ',' + ${pageWrapper.size} + ')'">
+                                        <span th:text="${item.number}">1</span></a>
+                                </li>
+                                <li th:class="${pageWrapper.hasNextPage}? '' : 'disabled'">
+                                    <a th:if="${not pageWrapper.hasNextPage}">»</a>
+                                    <a th:if="${pageWrapper.hasNextPage}" th:href="'javascript:navigatePage(' + ${pageWrapper.number+1} + ',' + ${pageWrapper.size} + ')'">»</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <nav class="pagination-next-prev" th:if="${pageWrapper.getItems().size() != 0}">
+                            <ul>
+                                <li th:class="${pageWrapper.firstPage} ? 'disabled' : ''">
+                                    <a class="prev" th:if="${pageWrapper.firstPage}">First</a>
+                                    <a class="prev" th:if="${not pageWrapper.firstPage}" th:href="'javascript:navigatePage(' + 1 + ',' + ${pageWrapper.size} + ')'">
+                                        Previous</a>
+                                </li>
+                                <li th:class="${pageWrapper.lastPage}? 'disabled' : ''">
+                                    <a class="next" th:if="${pageWrapper.lastPage}">Last</a>
+                                    <a class="next" th:if="${not pageWrapper.lastPage}" th:href="'javascript:navigatePage(' + ${pageWrapper.totalPages} + ',' + ${pageWrapper.size} + ')'">
+                                        Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <input type="hidden" name="page" />
+                <input type="hidden" name="size" />
+            </div>
+        </form>
+        <!-- Widgets / End -->
+    </div>
 </section>
 
 <th:block layout:fragment="script">
@@ -138,9 +111,9 @@
         var navigatePage = function (page, size) {
             var pageValue = parseInt(page);
             var sizeValue = parseInt(size);
-            document.all.page.value = pageValue;
-            document.all.size.value = sizeValue;
-            document.all.submit();
+            document.pageWrapper.page.value = pageValue;
+            document.pageWrapper.size.value = sizeValue;
+            document.pageWrapper.submit();
         }
 
     </script>

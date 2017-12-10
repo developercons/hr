@@ -1,8 +1,9 @@
 package com.recruiting.model.modelUtils;
 
 /**
- * Created by Martha on 5/5/2017.
+ * @author Marta Ginosyan
  */
+
 public class BooleanItemModel extends Model {
 
     private Boolean agreed;

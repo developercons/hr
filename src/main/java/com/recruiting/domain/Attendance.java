@@ -7,6 +7,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * @author Marta Ginosyan
+ */
+
 @Entity
 @Table(name = "attendance")
 @JsonIgnoreProperties(ignoreUnknown = true)

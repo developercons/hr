@@ -12,13 +12,12 @@ import java.util.List;
 
 /**
  * @author Marta Ginosyan
- * Date: 10/22/17
  */
 
 @Entity
 @Table(name = "employee")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Employee  extends User implements Serializable {
+public class Employee extends User implements Serializable {
 
     @OneToOne
     private WorkingHoursScheme individualWorkingHoursScheme;
@@ -30,8 +29,8 @@ public class Employee  extends User implements Serializable {
     public Employee() {
     }
 
-    public Employee(String ssn, String username, String password, String name, String phone, Boolean accountNonExpired, Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled, Boolean approved, String dtype, LocalDateTime joiningDate, LocalDateTime leavingDate, List<Authority> grantedAuthorities, WorkingHoursScheme individualWorkingHoursScheme) {
-        super(ssn, username, password, name, phone, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, approved, dtype, joiningDate, leavingDate, grantedAuthorities);
+    public Employee(String ssn, String username, String password, String name, String phone, Boolean accountNonExpired, Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled, Boolean approved, LocalDateTime joiningDate, LocalDateTime leavingDate, List<Authority> grantedAuthorities, WorkingHoursScheme individualWorkingHoursScheme) {
+        super(ssn, username, password, name, phone, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, approved, joiningDate, leavingDate, grantedAuthorities);
         this.individualWorkingHoursScheme = individualWorkingHoursScheme;
     }
 

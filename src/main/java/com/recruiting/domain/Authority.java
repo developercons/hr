@@ -10,8 +10,8 @@ import javax.persistence.Table;
 
 /**
  * @author Marta Ginosyan
- * Date: 10/22/17
  */
+
 @Entity
 @Table(name = "authority")
 @JsonIgnoreProperties(ignoreUnknown = true)

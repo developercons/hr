@@ -7,8 +7,9 @@ import java.util.Calendar;
 import java.util.Collection;
 
 /**
- * Created by Martha on 6/9/2017.
+ * @author Marta Ginosyan
  */
+
 public class DateTimeUtils {
 
     public static Long calculateDays(LocalDateTime start, LocalDateTime end) {

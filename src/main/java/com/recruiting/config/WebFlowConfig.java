@@ -1,6 +1,8 @@
 package com.recruiting.config;
 
 import com.recruiting.converter.StringToDateConverter;
+import com.recruiting.converter.StringToWorkingHoursSchemeConverter;
+import com.recruiting.repository.WorkingHoursSchemeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.binding.convert.ConversionService;
 import org.springframework.binding.convert.service.DefaultConversionService;
@@ -19,8 +21,9 @@ import org.springframework.webflow.security.SecurityFlowExecutionListener;
 import java.util.List;
 
 /**
- * Created by Martha on 5/6/2017.
+ * @author Marta Ginosyan
  */
+
 @Configuration
 @EnableWebMvc
 @EnableAutoConfiguration
@@ -32,6 +35,9 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     @Autowired
     private List<ViewResolver> viewResolvers;
 
+    @Autowired
+    private WorkingHoursSchemeRepository workingHoursSchemeRepository;
+
     @Bean
     public FlowExecutor flowExecutor() {
         return getFlowExecutorBuilder(flowRegistry()).addFlowExecutionListener(new SecurityFlowExecutionListener(), "*")
@@ -41,13 +47,15 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     @Bean
     public FlowDefinitionRegistry flowRegistry() {
         return getFlowDefinitionRegistryBuilder(flowBuilderServices()).setBasePath("classpath*:/templates")
-                .addFlowLocationPattern("/**/*-flow.xml").build();
+                .addFlowLocationPattern("/**/*-flow.xml")
+                .build();
     }
 
     @Bean
     public FlowBuilderServices flowBuilderServices() {
         FlowBuilderServices flowBuilderServices = getFlowBuilderServicesBuilder().setViewFactoryCreator(mvcViewFactoryCreator())
-                .setDevelopmentMode(true).build();
+                .setDevelopmentMode(true)
+                .build();
         flowBuilderServices.setConversionService(getConversionService());
         return flowBuilderServices;
     }
@@ -66,6 +74,7 @@ public class WebFlowConfig extends AbstractFlowConfiguration {
     public ConversionService getConversionService() {
         DefaultConversionService extendedConverterService = new DefaultConversionService();
         extendedConverterService.addConverter(new StringToDateConverter());
+        extendedConverterService.addConverter(new StringToWorkingHoursSchemeConverter(workingHoursSchemeRepository));
         return extendedConverterService;
     }
 

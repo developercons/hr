@@ -1,6 +1,7 @@
 package com.recruiting.service.vacation;
 
 import com.recruiting.domain.IndividualTimeOff;
+import com.recruiting.service.employee.dto.model.EmployeeDetailsModel;
 import com.recruiting.service.employee.dto.model.EmployeeModel;
 import com.recruiting.service.employee.dto.model.VacationConsumptionModel;
 
@@ -8,9 +9,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Marta Ginosyan
+ */
+
 public interface VacationCalculationService {
 
-    void calculateEmployeeVacationData(EmployeeModel model, List<IndividualTimeOff> timeOffs, Double vacationPerMonth, Double validVacationPeriod);
+    <T extends EmployeeModel> void calculateEmployeeModelData(T model, List<IndividualTimeOff> timeOffs, Double vacationPerMonth, Double validVacationPeriod);
+
+    <T extends EmployeeDetailsModel> void calculateEmployeeDetailsVacationData(T model, List<IndividualTimeOff> timeOffs, Double vacationPerMonth, Double validVacationPeriod);
 
     VacationConsumptionModel calculateBalancedVacationConsumption(
             List<IndividualTimeOff> timeOffs,

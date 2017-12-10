@@ -1,8 +1,9 @@
 package com.recruiting.model.modelUtils;
 
 /**
- * Created by Martha on 6/5/2017.
+ * @author Marta Ginosyan
  */
+
 public class RangeModel<T extends Number> extends Model {
 
     private T originalValue;

@@ -13,8 +13,9 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
- * Created by Martha on 6/16/2017.
+ * @author Marta Ginosyan
  */
+
 public class StringToLocalDateConverter extends StringToObject implements GenericConverter {
 
     private DateTimeFormatter formatter;

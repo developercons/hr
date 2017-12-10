@@ -3,67 +3,75 @@
 <!--<html class="ie ie8" lang="en"> <![endif]&ndash;&gt;-->
 <!--&lt;!&ndash;[if (gte IE 9)|!(IE)]>&lt;!&ndash;>-->
 <!--<html lang="en"> &lt;!&ndash;<![endif]&ndash;&gt;-->
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorator="layout/home">
-
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/home">
 <section layout:fragment="content" th:remove="tag">
-
     <!-- Titlebar
     ================================================== -->
-    <div id="titlebar" class="single">
+    <div id="titlebar">
         <div class="container">
-
-            <div class="sixteen columns">
-                <nav id="breadcrumbs">
-                    <ul>
-                        <li>You are here:</li>
-                        <li><a th:href="@{/admin/pending-approval/candidates}">Home</a></li>
-                        <li>Pending for approval candidates.</li>
-                    </ul>
-                </nav>
+            <div class="ten columns">
+                <h2>Not approved time-off requests for employees</h2>
             </div>
-
         </div>
     </div>
-
     <!-- Content
     ================================================== -->
-    <div class="container">
-        <form th:action="@{/admin/pending-approval/candidates}"
-              method="post" id="candidatesnonapp" name="candidatesnonapp">
+    <div class="container" th:if="${pageWrapper.getItems().size() != 0}">
+        <form th:action="@{/admin/employees/time-off-requests/next-page}" th:object="${pageWrapper}" method="post"
+              id="pageWrapper" name="pageWrapper">
 
-            <input type="hidden" name="page"/>
-            <input type="hidden" name="size"/>
+            <div th:if="${pageWrapper.getItems().size() != 0}">
+                <table class="manage-table resumes responsive-table">
+
+                    <tr>
+                        <th><i class="fa fa-user"></i> Name</th>
+                        <th><i class="fa fa-calendar"></i> Time off type</th>
+                        <th><i class="fa fa-envelope"></i> Start date</th>
+                        <th><i class="fa fa-envelope"></i> End date</th>
+                        <th></th>
+                    </tr>
+
+                    <div th:each="cons,rowStat : ${pageWrapper.page.content}">
+                        <!-- Item #1 -->
+                        <tr>
+                            <td class="title" th:text="${cons.user.name}"><a
+                                    th:href="@{/admin/employee/preview/__${cons.employeeId}__}" th:target="_blank"></a>
+                            </td>
+                            <td th:text="${cons.reason.title}"></td>
+                            <td th:text="${#temporals.format(cons.start, 'EEEE MM-dd-yyyy HH:mm')}"></td>
+                            <td th:text="${#temporals.format(cons.end, 'EEEE MM-dd-yyyy HH:mm')}"></td>
+                            <td class="action">
+                                <a th:href="@{/admin/employees/time-off-request/approve/__${cons.id}__}"><i
+                                        class="fa fa-pencil"></i> Approve</a>
+                                <a th:href="@{/admin/employees/time-off/delete/__${cons.id}__}" class="delete"><i
+                                        class="fa fa-remove"></i> Delete</a>
+                            </td>
+                        </tr>
+                    </div>
+
+                </table>
+            </div>
+
+            <ul class="resumes-list" th:if="${pageWrapper.getItems().size() == 0}">
+                <li>
+                    <div class="resumes-list-content">
+                        <h4>
+                            No non approved time-offs.
+                        </h4>
+                        <h5>
+                            Navigate "Home" to see employees data.
+                        </h5>
+                    </div>
+                    <div class="clearfix"></div>
+                </li>
+            </ul>
+            <div class="clearfix"></div>
 
             <!-- Recent Jobs -->
             <div class="eleven columns" id="leftPanel">
                 <div class="padding-right">
-
-                    <div>
-                        <ul class="resumes-list" th:if="${pageWrapper.getItems().size() != 0}">
-
-                            <li th:each="cons,rowStat : ${pageWrapper.page.content}">
-                                <a th:href="@{/admin/candidate-account/__${cons.id}__}" th:target="_blank">
-                                    <div class="resumes-list-content">
-                                        <h4 th:text="${cons.name}">
-                                        </h4>
-                                        <span><i class="fa fa-envelope"></i></span>
-                                        <span th:text="${cons.username}"></span>
-                                        <span><i class="fa fa-map-marker"></i></span>
-                                        <span th:text="${cons.address.city}"><i class="fa fa-map-marker"></i></span>
-                                    </div>
-                                </a>
-                                <div class="clearfix"></div>
-
-                            </li>
-
-                        </ul>
-                    </div>
-
                     <div class="clearfix"></div>
-
                     <div class="pagination-container">
                         <nav class="pagination">
                             <ul th:if="${pageWrapper.getItems().size() != 0}">
@@ -73,8 +81,7 @@
                                        th:href="'javascript:navigatePage(' + ${pageWrapper.number-1} + ',' + ${pageWrapper.size} + ')'">
                                         «</a>
                                 </li>
-                                <li th:each="item : ${pageWrapper.items}"
-                                    th:class="${item.current}? 'active' : ''">
+                                <li th:each="item : ${pageWrapper.items}" th:class="${item.current}? 'active' : ''">
                                     <a class="current-page" th:if="${item.current}" th:text="${item.number}">1</a>
                                     <a th:if="${not item.current}"
                                        th:href="'javascript:navigatePage(' + ${item.number} + ',' + ${pageWrapper.size} + ')'">
@@ -86,8 +93,17 @@
                                        th:href="'javascript:navigatePage(' + ${pageWrapper.number+1} + ',' + ${pageWrapper.size} + ')'">»</a>
                                 </li>
                             </ul>
+                            <ul class="resumes-list" th:if="${pageWrapper.getItems().size() == 0}">
+                                <li>
+                                    <div class="resumes-list-content">
+                                        <h4>
+                                            No time-off requests.
+                                        </h4>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </li>
+                            </ul>
                         </nav>
-
                         <nav class="pagination-next-prev" th:if="${pageWrapper.getItems().size() != 0}">
                             <ul>
                                 <li th:class="${pageWrapper.firstPage} ? 'disabled' : ''">
@@ -96,7 +112,6 @@
                                        th:href="'javascript:navigatePage(' + 1 + ',' + ${pageWrapper.size} + ')'">
                                         Previous</a>
                                 </li>
-
                                 <li th:class="${pageWrapper.lastPage}? 'disabled' : ''">
                                     <a class="next" th:if="${pageWrapper.lastPage}">Last</a>
                                     <a class="next" th:if="${not pageWrapper.lastPage}"
@@ -106,15 +121,13 @@
                             </ul>
                         </nav>
                     </div>
-
-
                 </div>
+                <input type="hidden" name="page"/>
+                <input type="hidden" name="size"/>
             </div>
         </form>
         <!-- Widgets / End -->
     </div>
-
-
 </section>
 
 <th:block layout:fragment="script">
@@ -123,9 +136,9 @@
         var navigatePage = function (page, size) {
             var pageValue = parseInt(page);
             var sizeValue = parseInt(size);
-            document.candidatesnonapp.page.value = pageValue;
-            document.candidatesnonapp.size.value = sizeValue;
-            document.candidatesnonapp.submit();
+            document.pageWrapper.page.value = pageValue;
+            document.pageWrapper.size.value = sizeValue;
+            document.pageWrapper.submit();
         }
 
     </script>

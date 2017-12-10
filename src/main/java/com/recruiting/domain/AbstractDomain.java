@@ -10,7 +10,6 @@ import java.util.Objects;
 
 /**
  * @author Marta Ginosyan
- * Date: 10/22/17
  */
 
 @MappedSuperclass

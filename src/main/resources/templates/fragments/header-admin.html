@@ -11,32 +11,24 @@
             <nav id="navigation" class="menu">
                 <ul id="responsive">
 
-                    <li><a th:href="@{/admin}">Home</a>
-                    </li>
-
-                    <li><a href="#">Pending Approvals</a>
+                    <li><a th:href="@{/admin}">Vacations</a>
                         <ul>
-                            <li><a th:href="@{/admin/pending-approval/companies}">Employees</a></li>
-                            <li><a th:href="@{/admin/pending-approval/candidates}">Users</a></li>
-
+                            <li><a th:href="@{/admin/home/vacations-disposed-from-outdated}">From outdated</a></li>
+                            <li><a th:href="@{/admin/home/vacations-disposed-balanced}">Balanced</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Approved Employees</a>
+                    <li><a  th:href="@{/admin/employees/time-off-requests}">Pending requests</a>
+                    </li>
+                    <li><a  th:href="@{/admin/under-construction}">Activity</a>
+                    </li>
+                    <li><a th:href="@{/admin/company-configurations}">Company</a>
+                    </li>
+                    <li><a th:href="@{/employee/home}">I'm employee</a>
                         <ul>
-                            <li><a th:href="@{/admin/companies}">Employees</a></li>
-                            <li><a th:href="@{/admin/candidates}">Users</a></li>
-
+                            <li><a th:href="@{/employee/non-approved-requests}">My pending requests</a></li>
+                            <li><a th:href="@{/employee/under-construction}">Time-off summary.</a></li>
                         </ul>
                     </li>
-
-                    <li><a href="#">Create Employee</a>
-                        <ul>
-                            <li><a th:href="@{/admin/create-company}">Employees</a></li>
-                            <li><a th:href="@{/admin/create-candidate}">Users</a></li>
-
-                        </ul>
-                    </li>
-
                 </ul>
 
 

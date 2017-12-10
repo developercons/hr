@@ -3,8 +3,9 @@ package com.recruiting.utils;
 import java.util.UUID;
 
 /**
- * Created by Martha on 3/1/2017.
+ * @author Marta Ginosyan
  */
+
 public class BusKeyGen {
 
     public static String nextKey() {

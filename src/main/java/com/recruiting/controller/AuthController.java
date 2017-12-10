@@ -31,8 +31,9 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 /**
- * Created by Martha on 4/18/2017.
+ * @author Marta Ginosyan
  */
+
 @Controller
 @RequestMapping(value = "")
 //@PreAuthorize("permitAll()")
@@ -43,9 +44,6 @@ public class AuthController {
 
     @Autowired
     UserService userDetailsService;
-
-//    @Autowired
-//    EmptyEntityCreationService emptyEntityCreationService;
 
     @Qualifier("javaEmailService")
     @Autowired
@@ -134,7 +132,8 @@ public class AuthController {
             return "redirect:/login";
         }
 
-        if (passwordResetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+        if (passwordResetToken.getExpiryDate()
+                .isBefore(LocalDateTime.now())) {
             String messageValue = "Token expired.";
             redirectAttributes.addFlashAttribute("error", messageValue);
             return "redirect:/login";
@@ -145,17 +144,22 @@ public class AuthController {
         Authentication auth = new UsernamePasswordAuthenticationToken(
                 user, null, Arrays.asList(
                 new SimpleGrantedAuthority("CHANGE_PASSWORD_PRIVILEGE")));
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        SecurityContextHolder.getContext()
+                .setAuthentication(auth);
         model.addAttribute("passwordModel", new PasswordDTO());
         return "update-password";
     }
 
     @RequestMapping(value = "/update-password", method = RequestMethod.POST)
     public String updatePassword(@Validated @ModelAttribute PasswordDTO passwordDto) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = (User) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal();
         user.setPassword(passwordDto.getNewPassword());
         userDetailsService.save(user);
-        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+        SecurityContextHolder.getContext()
+                .getAuthentication()
+                .setAuthenticated(false);
         return "redirect:/";
 
     }

@@ -3,8 +3,9 @@ package com.recruiting.model.modelUtils;
 import java.io.Serializable;
 
 /**
- * Created by Martha on 6/11/2017.
+ * @author Marta Ginosyan
  */
+
 public abstract class Model<T> implements Serializable {
 
     private T object;

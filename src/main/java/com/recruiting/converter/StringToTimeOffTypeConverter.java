@@ -8,7 +8,7 @@ import org.springframework.binding.convert.converters.StringToObject;
 import org.springframework.core.convert.converter.Converter;
 
 /**
- * Created by Martha on 5/19/2017.
+ * @author Marta Ginosyan
  */
 
 public class StringToTimeOffTypeConverter extends StringToObject implements Converter {

@@ -12,7 +12,7 @@ import java.security.Key;
 import java.util.Properties;
 
 /**
- * Created by Martha on 5/4/2017.
+ * @author Marta Ginosyan
  */
 
 @Converter

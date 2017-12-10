@@ -18,10 +18,7 @@
                 <nav id="breadcrumbs">
                     <ul>
                         <li>You are here:</li>
-                        <li th:if="${#authentication != null and #authorization.expression('hasRole(''ROLE_COMPANY'')')}"><a th:href="@{/company}">Home</a></li>
-                        <li th:if="${#authentication != null and #authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a th:href="@{/admin/companies}">Home</a></li>
-                        <li th:if="${!company.signedInUser}">Sign Up - Step Two</li>
-                        <li th:if="${company.signedInUser}">Edit Account - Step Two</li>
+                        <li>Edit Company Configurations - Step Two</li>
                     </ul>
                 </nav>
             </div>
@@ -43,117 +40,25 @@
                         th:object="${company}"
                         method="post" class="register">
 
-                    <input class="search-field" type="hidden"
-                           th:field="*{error}"/>
-                    <p th:each="error: ${#fields.errors('error')}"
-                       th:text="${error}"
-                       style="font-size: 20; color: #FF1C19;">Validation error</p>
-
-
-                    <h2>Company information:</h2>
-
-                    <!-- Industry -->
-                    <div class="form  required-field">
-                        <h5>Industry</h5>
-                        <select th:field="*{company.industry}" id="industries">
-                            <option value="0">Please select</option>
-                            <option th:each="industry : ${industries}"
-                                    th:value="${industry.getId()}"
-                                    th:selected="${industry}"
-                                    th:text="${industry.getTitle()}">
-                            </option>
-                        </select>
-                        <p th:each="error: ${#fields.errors('company.industry')}"
-                           th:text="${error}"
-                           style="font-size: 20; color: #FF1C19;">Validation error</p>
+                    <div th:if="*{timeoOffTypes != null}">
+                        <div class="widget  required-field">
+                            <h4>Time-off types </h4>
+                            <h6 class="checkboxes" style="margin-bottom: 0;">
+                                <div th:each="type,rowStat : *{timeoOffTypes}">
+                                    <input type="hidden"
+                                           th:name="${'timeoOffTypes[' + rowStat.index + '].type.title'}"
+                                           th:value="${type.title}"/>
+                                    <input class="filter_by_check" type="checkbox" th:type="checkbox"
+                                           th:name="${'timeoOffTypes[' + rowStat.index + '].valid'}"
+                                           th:checked="${type.valid}"
+                                           th:value="1"
+                                           th:id="${'check_' + __${rowStat.index}__}"/>
+                                    <label class="cmn-label" th:for="${'check_' + __${rowStat.index}__}"
+                                           th:text="*{timeoOffTypes[__${rowStat.index}__].title}"/>
+                                </div>
+                            </h6>
+                        </div>
                     </div>
-
-                    <!-- State -->
-                    <div class="form  required-field">
-                        <h5>State</h5>
-                        <select th:field="*{company.address.state}" id="state">
-                            <option value="0">Please select</option>
-                            <option th:each="state : ${states}"
-                                    th:value="${state.getId()}"
-                                    th:selected="${state}"
-                                    th:text="${state.getTitle()}">
-                            </option>
-                        </select>
-                        <p th:each="error: ${#fields.errors('company.address.state')}"
-                           th:text="${error}"
-                           style="font-size: 20; color: #FF1C19;">Validation error</p>
-                    </div>
-
-                    <!-- City -->
-                    <div class="form  required-field">
-                        <h5>City</h5>
-                        <input class="search-field" type="text"
-                               th:field="*{company.address.city}"
-                               name="city" placeholder="City"/>
-                        <p th:each="error: ${#fields.errors('company.address.city')}"
-                           th:text="${error}"
-                           style="font-size: 20; color: #FF1C19;">Validation error</p>
-                    </div>
-
-                    <!-- Address -->
-                    <div class="form  required-field">
-                        <h5>Address</h5>
-                        <input class="search-field" type="text"
-                               th:field="*{company.address.address}"
-                               name="address" placeholder="Address"/>
-                        <p th:each="error: ${#fields.errors('company.address.address')}"
-                           th:text="${error}"
-                           style="font-size: 20; color: #FF1C19;">Validation error</p>
-                    </div>
-
-                    <!-- ZIP -->
-                    <div class="form  required-field">
-                        <h5>Zip Code</h5>
-                        <input class="search-field" type="number"
-                               th:field="*{company.address.zipCode}"
-                               name="zip" placeholder="ZIP Code"/>
-                        <p th:each="error: ${#fields.errors('company.address.zipCode')}"
-                           th:text="${error}"
-                           style="font-size: 20; color: #FF1C19;">Validation error</p>
-                    </div>
-
-                    <h2>Contact person:</h2>
-
-
-                    <!-- Contact person name -->
-                    <div class="form  required-field">
-                        <h5>Name</h5>
-                        <input class="search-field" type="text"
-                               th:field="*{company.mainContact.name}"
-                               name="name" placeholder="Name of contact person"/>
-                        <p th:each="error: ${#fields.errors('company.mainContact.name')}"
-                           th:text="${error}"
-                           style="font-size: 20; color: #FF1C19;">Validation error</p>
-                    </div>
-
-                    <!-- Contact person email -->
-                    <div class="form">
-                        <h5>Email</h5>
-                        <input class="search-field" type="text"
-                               th:field="*{company.mainContact.email}"
-                               name="email" placeholder="Email"/>
-                        <p th:each="error: ${#fields.errors('company.mainContact.email')}"
-                           th:text="${error}"
-                           style="font-size: 20; color: #FF1C19;">Validation error</p>
-                    </div>
-
-                    <!-- Contact person phone -->
-                    <div class="form">
-                        <h5>Phone</h5>
-                        <input class="search-field" type="text"
-                               th:field="*{company.mainContact.phone}"
-                               name="phone" placeholder="Phone"/>
-                        <p th:each="error: ${#fields.errors('company.mainContact.phone')}"
-                           th:text="${error}"
-                           style="font-size: 20; color: #FF1C19;">Validation error</p>
-                    </div>
-
-
                     <button id="back" type="submit" name="_eventId_back" class="button big margin-top-5">
                         <i class="fa fa-arrow-circle-left"></i> Back
                     </button>
@@ -161,10 +66,7 @@
                     <button id="next" type="submit" name="_eventId_next" class="button big margin-top-5">
                         Next <i class="fa fa-arrow-circle-right"></i>
                     </button>
-
-
                 </form>
-
             </div>
         </div>
 

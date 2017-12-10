@@ -16,8 +16,9 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * Created by Martha on 4/5/2017.
+ * @author Marta Ginosyan
  */
+
 //public class SecuritySuccessHandler{
 public class SecuritySuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -43,12 +44,18 @@ public class SecuritySuccessHandler extends SimpleUrlAuthenticationSuccessHandle
         String targetUrl = noAuthenticatedPath;
         Collection<? extends GrantedAuthority> grantedAuthorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = grantedAuthorities.iterator();
-        while (iterator.hasNext()) {
-            GrantedAuthority grantedAuthority = iterator.next();
-            if (grantedAuthority.getAuthority().equalsIgnoreCase(Constants.ROLE_ADMIN))
-                targetUrl = Constants.PATH_BASE_ADMIN;
-            else if (grantedAuthority.getAuthority().equalsIgnoreCase(Constants.ROLE_EMPLOYEE))
-                targetUrl = Constants.PATH_BASE_EMPLOYEE;
+        if (grantedAuthorities.size() == 1) {
+            while (iterator.hasNext()) {
+                GrantedAuthority grantedAuthority = iterator.next();
+                if (grantedAuthority.getAuthority()
+                        .equalsIgnoreCase(Constants.ROLE_ADMIN))
+                    targetUrl = Constants.PATH_BASE_ADMIN;
+                else if (grantedAuthority.getAuthority()
+                        .equalsIgnoreCase(Constants.ROLE_EMPLOYEE))
+                    targetUrl = Constants.PATH_BASE_EMPLOYEE;
+            }
+        } else if (grantedAuthorities.size() > 1) {
+            targetUrl = Constants.PATH_BASE_ADMIN;
         }
 
         LOG.warn("User: " + authentication.getName()

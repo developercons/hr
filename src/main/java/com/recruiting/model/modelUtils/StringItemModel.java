@@ -3,8 +3,9 @@ package com.recruiting.model.modelUtils;
 import java.io.Serializable;
 
 /**
- * Created by Martha on 5/4/2017.
+ * @author Marta Ginosyan
  */
+
 public class StringItemModel extends Model implements Serializable {
     private String type;
 

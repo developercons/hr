@@ -5,8 +5,9 @@ import com.recruiting.model.modelUtils.Model;
 import java.io.Serializable;
 
 /**
- * Created by Martha on 9/2/2017.
+ * @author Marta Ginosyan
  */
+
 public class CertificationsModel extends Model implements Serializable {
 //    private Certifications certificationsModel; // TODO Change name to certifications
 //    private boolean active = false;

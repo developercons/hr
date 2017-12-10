@@ -7,8 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Martha on 6/7/2017.
+ * @author Marta Ginosyan
  */
+
 public class PageWrapper<T> implements Serializable {
 
     public static final int MAX_PAGE_ITEM_DISPLAY = 8;
@@ -16,6 +17,7 @@ public class PageWrapper<T> implements Serializable {
     private List<PageItem> items;
     private int currentNumber;
     private String url;
+    private boolean notEmpty;
 
     public String getUrl() {
         return url;
@@ -96,7 +98,7 @@ public class PageWrapper<T> implements Serializable {
         return page.hasNext();
     }
 
-    public boolean isContnet() {
+    public boolean getNotEmpty() {
         return page.hasContent();
     }
 

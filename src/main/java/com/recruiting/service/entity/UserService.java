@@ -7,8 +7,9 @@ import com.recruiting.domain.VerificationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
- * Created by Martha on 5/14/2017.
+ * @author Marta Ginosyan
  */
+
 public interface UserService extends UserDetailsService {
 
     User findUserByUsername(String username);

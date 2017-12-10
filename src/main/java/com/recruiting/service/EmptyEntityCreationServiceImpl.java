@@ -13,6 +13,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author Marta Ginosyan
+ */
+
 @Service
 public class EmptyEntityCreationServiceImpl implements EmptyEntityCreationService {
 

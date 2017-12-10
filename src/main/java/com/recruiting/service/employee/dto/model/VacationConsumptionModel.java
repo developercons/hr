@@ -2,6 +2,10 @@ package com.recruiting.service.employee.dto.model;
 
 import com.recruiting.utils.ValidationPatternUtils;
 
+/**
+ * @author Marta Ginosyan
+ */
+
 public class VacationConsumptionModel {
 
     private Double vacationTakenFromIndate;

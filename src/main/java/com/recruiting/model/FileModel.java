@@ -6,8 +6,9 @@ import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * Created by Martha on 5/20/2017.
+ * @author Marta Ginosyan
  */
+
 public class FileModel implements Serializable {
 
     private static final long serialVersionUID = 1L;

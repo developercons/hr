@@ -20,10 +20,7 @@
                 <nav id="breadcrumbs">
                     <ul>
                         <li>You are here:</li>
-                        <li th:if="${#authentication != null and #authorization.expression('hasRole(''ROLE_COMPANY'')')}"><a th:href="@{/company}">Home</a></li>
-                        <li th:if="${#authentication != null and #authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a th:href="@{/admin/companies}">Home</a></li>
-                        <li th:if="${!company.signedInUser}">Sign Up - Final Step</li>
-                        <li th:if="${company.signedInUser}">Edit Account - Final Step</li>
+                        <li>Edit Company Configurations - Final Step</li>
                     </ul>
                 </nav>
             </div>
@@ -47,165 +44,86 @@
                         method="post" class="register" id="final">
 
 
-                    <div th:if="*{additionalAddressesDecorator != null}">
-                        <!-- Experience  -->
-                        <div >
-                            <h5>Your locations</h5>
+                    <!-- Industry -->
+                    <div class="form  required-field">
+                        <h5>Working hour schemes</h5>
+                        <select th:field="*{workingHoursScheme}" id="industries">
+                            <option value="0">Please select</option>
+                            <option th:each="workingHoursScheme : *{workingHoursSchemes}"
+                                    th:value="${workingHoursScheme.getId()}"
+                                    th:selected="*{workingHoursScheme}"
+                                    th:text="${workingHoursScheme.getTitle()}">
+                            </option>
+                        </select>
+                        <!--<p th:each="error: ${#fields.errors('company.industry')}"-->
+                           <!--th:text="${error}"-->
+                           <!--style="font-size: 20; color: #FF1C19;">Validation error</p>-->
+                    </div>
 
-                            <p th:each="error: ${#fields.errors('index')}"
-                               th:text="${error}"
-                               style="font-size: 20; color: #FF1C19;">Validation error</p>
-                            <p th:each="error: ${#fields.errors('addressForError.state')}"
-                               th:text="${error}"
-                               style="font-size: 20; color: #FF1C19;">Validation error</p>
-                            <p th:each="error: ${#fields.errors('addressForError.city')}"
-                               th:text="${error}"
-                               style="font-size: 20; color: #FF1C19;">Validation error</p>
-                            <p th:each="error: ${#fields.errors('addressForError.address')}"
-                               th:text="${error}"
-                               style="font-size: 20; color: #FF1C19;">Validation error</p>
-                            <p th:each="error: ${#fields.errors('addressForError.zipCode')}"
-                               th:text="${error}"
-                               style="font-size: 20; color: #FF1C19;">Validation error</p>
-
-                            <div th:each="address,rowStat : *{additionalAddressesDecorator}">
-                                <div th:if="*{additionalAddressesDecorator[__${rowStat.index}__] != null}">
-                                    <input type="hidden" name="index" id="index" th:field="*{index}"
-                                           th:value="${rowStat.index}"/>
-
-                                    <!-- Add more locations -->
-                                    <div class="form boxed">
-                                        <a id="deleteAddress" type="submit" name="_eventId_deleteAddress"
-                                           class="close-form button"
-                                           th:href="@{${flowExecutionUrl}(_eventId='deleteAddress')}">
-                                            <i class="fa fa-close"></i>
-                                        </a>
-                                        <!-- State -->
-                                        <div class="form  required-field">
-                                            <h5>State</h5>
-                                            <select th:field="*{additionalAddressesDecorator[__${rowStat.index}__].state}"
-                                                    id="state">
-                                                <option th:if="*{additionalAddressesDecorator[__${rowStat.index}__].state != null}"
-                                                        value="0"
-                                                        th:text="*{additionalAddressesDecorator[__${rowStat.index}__].state.title}"/>
-                                                <option th:each="state : ${states}"
-                                                        th:value="${state.getId()}"
-                                                        th:selected="${state}"
-                                                        th:text="${state.getTitle()}">
-                                                </option>
-                                            </select>
-                                        </div>
-
-                                        <!-- City -->
-                                        <div class="form  required-field">
-                                            <h5>City</h5>
-                                            <input class="search-field" type="text"
-                                                   th:field="*{additionalAddressesDecorator[__${rowStat.index}__].city}"
-                                                   name="city" placeholder="City"/>
-                                        </div>
-
-                                        <!-- Address -->
-                                        <div class="form  required-field">
-                                            <h5>Address</h5>
-                                            <input class="search-field" type="text"
-                                                   th:field="*{additionalAddressesDecorator[__${rowStat.index}__].address}"
-                                                   name="address" placeholder="Address"/>
-                                        </div>
-
-                                        <!-- ZIP -->
-                                        <div class="form  required-field">
-                                            <h5>Zip Code</h5>
-                                            <input class="search-field" type="number" min="0"
-                                                   th:field="*{additionalAddressesDecorator[__${rowStat.index}__].zipCode}"
-                                                   name="zip" placeholder="ZIP Code"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- Hourly rate -->
+                    <div class="form  required-field">
+                        <h5>Vacation granted per month</h5>
+                        <input class="search-field" type="number"
+                               th:field="*{companyConfig.vacationPerMonth}"
+                               name="hourlyRate" placeholder="$0.00" id="vacationPerMonth" step="1"/>
+                        <!--<p th:each="error: ${#fields.errors('candidate.hourlyRate')}"-->
+                        <!--th:text="${error}"-->
+                        <!--style="font-size: 20; color: #FF1C19;">Validation error</p>-->
                     </div>
 
 
-                    <!-- Add Address  -->
-                    <div th:if="*{count &#60; 5}">
-                        <h5>Add locations <span>(optional)</span></h5>
-
-                        <input class="search-field" type="hidden"
-                               th:field="*{error}"/>
-
-                        <div class="form with-line">
-                            <div class="">
-                                <!-- Add more locations -->
-                                <div class="form boxed experience-box">
-                                    <!-- State -->
-                                    <div class="form  required-field">
-                                        <h5>State</h5>
-                                        <select th:field="*{additionalAddressPlaceholder.state}"
-                                                id="newstate">
-                                            <option value="0">Please select</option>
-                                            <option th:each="state : ${states}"
-                                                    th:value="${state.getId()}"
-                                                    th:selected="${state}"
-                                                    th:text="${state.getTitle()}">
-                                            </option>
-                                        </select>
-                                        <p th:each="error: ${#fields.errors('additionalAddressPlaceholder.state')}"
-                                           th:text="${error}"
-                                           style="font-size: 20; color: #FF1C19;">Validation error</p>
-                                    </div>
-
-                                    <!-- City -->
-                                    <div class="form  required-field">
-                                        <h5>City</h5>
-                                        <input class="search-field" type="text"
-                                               th:field="*{additionalAddressPlaceholder.city}"
-                                               name="city" placeholder="City"/>
-                                        <p th:each="error: ${#fields.errors('additionalAddressPlaceholder.city')}"
-                                           th:text="${error}"
-                                           style="font-size: 20; color: #FF1C19;">Validation error</p>
-                                    </div>
-
-                                    <!-- Address -->
-                                    <div class="form  required-field">
-                                        <h5>Address</h5>
-                                        <input class="search-field" type="text"
-                                               th:field="*{additionalAddressPlaceholder.address}"
-                                               name="address" placeholder="Address"/>
-                                        <p th:each="error: ${#fields.errors('additionalAddressPlaceholder.address')}"
-                                           th:text="${error}"
-                                           style="font-size: 20; color: #FF1C19;">Validation error</p>
-                                    </div>
-
-                                    <!-- ZIP -->
-                                    <div class="form  required-field">
-                                        <h5>Zip Code</h5>
-                                        <input class="search-field" type="number" min="0"
-                                               th:field="*{additionalAddressPlaceholder.zipCode}"
-                                               name="zip" placeholder="ZIP Code"/>
-                                        <p th:each="error: ${#fields.errors('additionalAddressPlaceholder.zipCode')}"
-                                           th:text="${error}"
-                                           style="font-size: 20; color: #FF1C19;">Validation error</p>
-                                    </div>
-                                </div>
-
-
-                                <button id="addAddress" type="submit" name="_eventId_addAddress"
-                                        class="button gray">
-                                    <i class="fa fa-plus-circle"></i> Save Location
-                                </button>
-
-                            </div>
-                        </div>
+                    <!-- Hourly rate -->
+                    <div class="form  required-field">
+                        <h5>Valid vacation period</h5>
+                        <input class="search-field" type="number"
+                               th:field="*{companyConfig.validVacationPeriod}"
+                               name="hourlyRate" placeholder="$0.00" id="validVacationPeriod" step="1"/>
+                        <!--<p th:each="error: ${#fields.errors('candidate.hourlyRate')}"-->
+                        <!--th:text="${error}"-->
+                        <!--style="font-size: 20; color: #FF1C19;">Validation error</p>-->
                     </div>
 
+                    <div>
+                        <p class="form-row  required-field">
+                            <label for="advance" class="rememberme">
+                                <input type="hidden" name="_advance" th:value="*{companyConfig.vacationInAdvanceAllowed}"/>
+                                <input name="advance" type="checkbox" id="advance"
+                                       th:checked="*{companyConfig.vacationInAdvanceAllowed}"/> Allow employee vacation in advance
+                            </label>
+                        </p>
+                        <!--<p th:each="error: ${#fields.errors('agreed')}"-->
+                        <!--th:text="${error}"-->
+                        <!--style="font-size: 20; color: #FF1C19;">Validation error</p>-->
+                    </div>
+
+                    <div>
+                        <p class="form-row  required-field">
+                            <label for="agreed" class="rememberme">
+                                <input type="hidden" name="_agreed" th:value="*{companyConfig.halfDayTimeOffAllowed}"/>
+                                <input name="agreed" type="checkbox" id="agreed"
+                                       th:checked="*{companyConfig.halfDayTimeOffAllowed}"/> Allow half day time-off
+                            </label>
+                        </p>
+                        <!--<p th:each="error: ${#fields.errors('agreed')}"-->
+                        <!--th:text="${error}"-->
+                        <!--style="font-size: 20; color: #FF1C19;">Validation error</p>-->
+                    </div>
 
                     <button id="back" type="submit" name="_eventId_back" class="button big margin-top-5">
-                        <i class="fa fa-arrow-circle-left"></i> Back
+                        <i class="fa fa-arrow-circle-left"></i> BACK
                     </button>
 
-                    <button id="preview" type="submit" name="_eventId_preview" class="button big margin-top-5">
-                        Preview <i class="fa fa-arrow-circle-right"></i>
+                    <button id="update" type="submit" name="_eventId_update"
+                            class="button big margin-top-5">
+                        UPDATE <i class="fa fa-arrow-circle-right"></i>
                     </button>
+
+                    <div class="clearfix"></div>
+
+                    <a type="button" th:href="@{/admin}"
+                       class="button big margin-top-5">
+                        CANCEL
+                    </a>
 
 
                 </form>

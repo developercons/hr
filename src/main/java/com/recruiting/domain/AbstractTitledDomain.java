@@ -7,8 +7,9 @@ import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 
 /**
- * Created by Martha on 6/12/2017.
+ * @author Marta Ginosyan
  */
+
 @MappedSuperclass
 public class AbstractTitledDomain extends AbstractDomain implements Serializable, Titled {
 

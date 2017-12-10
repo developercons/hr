@@ -10,6 +10,9 @@ import org.springframework.context.annotation.DependsOn;
 
 import javax.sql.DataSource;
 
+/**
+ * @author Marta Ginosyan
+ */
 
 @Configuration
 public class MigrationConfig {

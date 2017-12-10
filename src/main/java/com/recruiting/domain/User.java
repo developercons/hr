@@ -77,7 +77,7 @@ public class User extends AbstractDomain implements UserDetails {
     public User() {
     }
 
-    public User(String ssn, String username, String password, String name, String phone, Boolean accountNonExpired, Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled, Boolean approved, String dtype, LocalDateTime joiningDate, LocalDateTime leavingDate, List<Authority> grantedAuthorities) {
+    public User(String ssn, String username, String password, String name, String phone, Boolean accountNonExpired, Boolean accountNonLocked, Boolean credentialsNonExpired, Boolean enabled, Boolean approved, LocalDateTime joiningDate, LocalDateTime leavingDate, List<Authority> grantedAuthorities) {
         super(ssn);
         this.username = username;
         this.password = password;
@@ -88,7 +88,6 @@ public class User extends AbstractDomain implements UserDetails {
         this.credentialsNonExpired = credentialsNonExpired;
         this.enabled = enabled;
         this.approved = approved;
-        this.dtype = dtype;
         this.joiningDate = joiningDate;
         this.leavingDate = leavingDate;
         this.grantedAuthorities = grantedAuthorities;

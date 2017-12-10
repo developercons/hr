@@ -31,8 +31,9 @@ import org.thymeleaf.spring4.view.FlowAjaxThymeleafView;
 import java.util.List;
 
 /**
- * Created by Martha on 4/25/2017.
+ * @author Marta Ginosyan
  */
+
 @Configuration
 @EnableWebMvc
 @EnableAutoConfiguration
@@ -46,12 +47,14 @@ public class WebMVCConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/");
     }
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        configurer.favorPathExtension(true).favorParameter(true);
+        configurer.favorPathExtension(true)
+                .favorParameter(true);
     }
 
     @Bean(name = "marshallingXmlViewResolver")

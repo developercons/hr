@@ -31,7 +31,7 @@
         </div>
     </header>
 
-    <header th:if="${#authentication != null and #authorization.expression('hasRole(''ROLE_EMPLOYEE'')')}"
+    <header th:if="${#authentication != null and #authorization.expression('hasRole(''ROLE_EMPLOYEE'')') and #authorization.expression('hasRole(''ROLE_ADMIN'')') != true}"
             class="sticky-header">
         <div>
             <section th:include="fragments/header-employee::header" th:remove="tag">

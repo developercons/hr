@@ -1,23 +1,27 @@
 package com.recruiting.controller;
 
-import com.recruiting.domain.User;
+import com.recruiting.domain.IndividualTimeOff;
+import com.recruiting.model.modelUtils.PageWrapper;
+import com.recruiting.service.admin.AdminService;
+import com.recruiting.service.employee.EmployeeDetailService;
+import com.recruiting.service.employee.dto.model.EmployeeDetailsModel;
+import com.recruiting.service.employee.dto.model.EmployeeModel;
+import com.recruiting.service.entity.TimeOffService;
 import com.recruiting.service.entity.UserService;
-import com.recruiting.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
- * Created by Martha on 7/4/2017.
+ * @author Marta Ginosyan
  */
+
 @Controller
 @RequestMapping(value = "/admin")
 @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
@@ -26,171 +30,116 @@ public class AdminController extends AbstractController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    private AdminService adminService;
+
+    @Autowired
+    private TimeOffService timeOffService;
+
+    @Autowired
+    private EmployeeDetailService employeeDetailService;
+
     @RequestMapping(value = "")
     public String candidate() {
         return "redirect:/admin/home/";
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public String account(Model model) {
-
+    public String account(
+            Model model) {
+        PageWrapper<EmployeeModel> pageWrapper = adminService.getEmployee(new PageRequest(0, 3));
+        model.addAttribute("pageWrapper", pageWrapper);
         return "admin-home";
     }
 
-    @RequestMapping(value = "")
-    public String home(Model model, Pageable pageable) {
-//        Page<User> allUsers = userService.FindAllUsersExceptAdmin(pageable);
-//        PageWrapper<User> pageWrapper = new PageWrapper<>(allUsers, "");
-//        model.addAttribute("pageWrapper", pageWrapper);
+    @RequestMapping(value = "/home/vacations-disposed-from-outdated", method = RequestMethod.GET)
+    public String vacationsFromOutdated(
+            Model model) {
+        PageWrapper<EmployeeDetailsModel> pageWrapper = adminService.getEmployeeDetails(new PageRequest(0, 3));
+        model.addAttribute("pageWrapper", pageWrapper);
+        return "admin-home-outdated";
+    }
+
+    @RequestMapping(value = "/home/vacations-disposed-balanced", method = RequestMethod.GET)
+    public String vacationsBalanced(
+            Model model) {
+        PageWrapper<EmployeeDetailsModel> pageWrapper = adminService.getEmployeeDetails(new PageRequest(0, 3));
+        model.addAttribute("pageWrapper", pageWrapper);
+        return "admin-home-balanced";
+    }
+
+    @RequestMapping(value = "/home/employees", method = RequestMethod.POST)
+    public String account(
+            Model model,
+            Pageable pageable) {
+        PageWrapper<EmployeeModel> pageWrapper = adminService.getEmployee(pageable);
+        model.addAttribute("pageWrapper", pageWrapper);
         return "admin-home";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String navigateToUserAccount(@PathVariable(value = "id") Long id) {
-        User user = userService.findById(id);
-        String authority = user.getAuthorities().get(0).getAuthority();
-        switch (authority) {
-            case "ROLE_COMPANY":
-                return "redirect:/admin/company-account/" + id;
-            case "ROLE_CANDIDATE":
-                return "redirect:/admin/candidate-account/" + id;
-            default:
-                return "redirect:/admin";
-        }
-    }
-
-    @RequestMapping(value = "/pending-approval/companies", method = RequestMethod.GET)
-    public String nonApprovedCompanies(Model model, Pageable pageable) {
-//        Page<Company> nonApprovedCompanies = companyService.findByApprovedFalse(pageable);
-//        PageWrapper<Company> pageWrapper = new PageWrapper<>(nonApprovedCompanies, "");
-//        model.addAttribute("pageWrapper", pageWrapper);
-        return "admin-companies-nonapproved";
-    }
-
-    @RequestMapping(value = "/pending-approval/candidates", method = RequestMethod.GET)
-    public String nonApprovedCandidates(Model model, Pageable pageable) {
-//        Page<Candidate> nonApprovedCandidates = candidateService.findByApprovedFalse(pageable);
-//        PageWrapper<Candidate> pageWrapper = new PageWrapper<>(nonApprovedCandidates, "");
-//        model.addAttribute("pageWrapper", pageWrapper);
-        return "admin-candidates-nonapproved";
-    }
-
-    @RequestMapping(value = "companies", method = RequestMethod.GET)
-    public String companies(Model model, Pageable pageable) {
-//        Page<Company> nonApprovedCompanies = companyService.findByApprovedTrue(pageable);
-//        PageWrapper<Company> pageWrapper = new PageWrapper<>(nonApprovedCompanies, "");
-//        model.addAttribute("pageWrapper", pageWrapper);
-        return "admin-companies-approved";
-    }
-
-    @RequestMapping(value = "candidates", method = RequestMethod.GET)
-    public String candidates(Model model, Pageable pageable) {
-//        Page<Candidate> nonApprovedCandidates = candidateService.findByApprovedTrue(pageable);
-//        PageWrapper<Candidate> pageWrapper = new PageWrapper<>(nonApprovedCandidates, "");
-//        model.addAttribute("pageWrapper", pageWrapper);
-        return "admin-candidates-approved";
-    }
-
-    @RequestMapping(value = "/company-account/{id}", method = {RequestMethod.GET})
-    public String companyAccount(
-            @PathVariable(value = "id") Long id,
+    @RequestMapping(value = "/employees/time-off-requests", method = RequestMethod.GET)
+    public String timeOffsNotApproved(
             Model model) {
-
-//        Company company = companyService.findById(id);
-//        model.addAttribute("company", company);
-        return "company-account";
+        PageWrapper<IndividualTimeOff> pageWrapper = timeOffService.getNotApprovedTimeOffRequests(new PageRequest(0, 3));
+        model.addAttribute("pageWrapper", pageWrapper);
+        return "admin-non-approved";
     }
 
-    @RequestMapping(value = "/candidate-account/{id}", method = {RequestMethod.GET})
-    public String candidateAccount(
-            @PathVariable(value = "id") Long id,
-            Model model) {
-//        Candidate candidate = candidateService.findById(id);
-//        model.addAttribute("candidate", candidate);
-        return "candidate-account";
+    @RequestMapping(value = "/employees/time-off-requests/next-page", method = RequestMethod.POST)
+    public String timeOffsNotApprovedNextPage(
+            Model model,
+            Pageable pageable) {
+        PageWrapper<IndividualTimeOff> pageWrapper = timeOffService.getNotApprovedTimeOffRequests(pageable);
+        model.addAttribute("pageWrapper", pageWrapper);
+        return "admin-non-approved";
     }
 
-    @RequestMapping(value = "/approve_user/{id}", method = {RequestMethod.GET})
-    public String companyApprove(@PathVariable(value = "id") Long id, HttpServletRequest request) {
-        userService.approveUser(id);
-        String referer = request.getHeader("Referer");
-        if (StringUtils.isNullOrEmpty(referer)) return "admin-home";
-        return "redirect:" + referer;
+    @RequestMapping(value = "/employee/time-off-details/{id}", method = RequestMethod.GET)
+    public String employeeTimeOffDetails(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("pageWrapper", employeeDetailService.getTimeOffsByEmployee(id, new PageRequest(0, 3)));
+        model.addAttribute("employee", userService.findById(id));
+        return "admin-employee-timeoffs-detail";
     }
 
-    @RequestMapping(value = "/conversations/company/{id}", method = {RequestMethod.GET})
-    public String companyConversations(@PathVariable(value = "id") Long id, Pageable pageable, Model model) {
-//        Company company = companyService.findById(id);
-//
-//        Page<Conversation> conversations = conversationService.findAllByCompany(pageable, company);
-//        PageWrapper<Conversation> pageWrapper = new PageWrapper<>(conversations, "");
-//
-//        model.addAttribute("pageWrapper", pageWrapper);
-//        model.addAttribute("id", id);
-        return "admin-company-conversations";
+    @RequestMapping(value = "/employee/time-off-details/next-page/{id}", method = RequestMethod.POST)
+    public String employeeTimeOffDetailsNextPage(@PathVariable("id") Long id, Model model, Pageable pageable) {
+        model.addAttribute("pageWrapper", employeeDetailService.getTimeOffsByEmployee(id, pageable));
+        model.addAttribute("employee", userService.findById(id));
+        return "admin-employee-timeoffs-detail";
     }
 
-    @RequestMapping(value = "/conversations/candidate/{id}", method = {RequestMethod.GET})
-    public String candidateConversations(@PathVariable(value = "id") Long id, Pageable pageable, Model model) {
-//        Candidate candidate = candidateService.findById(id);
-//
-//        Page<Conversation> conversations = conversationService.findAllByCandidate(pageable, candidate);
-//        PageWrapper<Conversation> pageWrapper = new PageWrapper<>(conversations, "");
-//
-//        model.addAttribute("pageWrapper", pageWrapper);
-//        model.addAttribute("id", id);
-        return "admin-candidate-conversations";
+    @RequestMapping(value = "/employee/preview/{id}", method = RequestMethod.GET)
+    public String previewEmployeeTimeOffs(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("employeeMap", employeeDetailService.getTimeOffSummaryForEmployee(id));
+        return "redirect:/admin/employees/time-off-requests/";
     }
 
-    @RequestMapping(value = "/company/conversation/{id}", method = {RequestMethod.GET})
-    public String companyConversation(@PathVariable(value = "id") Long id, Pageable pageable, Model model) {
-//        prepareModelForConversationPreview(model, pageable, id);
-        return "admin-company-conversation-preview";
-
+    @RequestMapping(value = "/employees/time-off-request/approve/{id}", method = RequestMethod.GET)
+    public String approveTimeOff(@PathVariable("id") Long id) {
+        timeOffService.approveTimeOff(id);
+        return "redirect:/admin/employees/time-off-requests/";
     }
 
-    @RequestMapping(value = "/candidate/conversation/{id}", method = {RequestMethod.GET})
-    public String candidateConversation(@PathVariable(value = "id") Long id, Pageable pageable, Model model) {
-//        prepareModelForConversationPreview(model, pageable, id);
-        return "admin-candidate-conversation-preview";
+    @RequestMapping(value = "/employees/time-off/delete/{id}", method = RequestMethod.GET)
+    public String deleteTimeOff(@PathVariable("id") Long id) {
+        timeOffService.deleteTimeOff(id);
+        return "redirect:/admin/employees/time-off-requests/";
     }
 
-    @RequestMapping(value = "/edit-company-account/{id}", method = {RequestMethod.GET})
-    public String editCompanyAccount(
-            @PathVariable(value = "id") Long id,
-            ModelMap model) {
-//        Company company = companyService.findById(id);
-//        model.put("companyUsername", company.getUsername());
+    @RequestMapping(value = "/employees/time-off/dispose/{id}", method = RequestMethod.GET)
+    public String disposeTimeOff(@PathVariable("id") Long id) {
+        timeOffService.disposeTimeOff(id);
+        return "redirect:/admin/employees/time-off-requests/";
+    }
+
+    @RequestMapping(value = "/company-configurations", method = RequestMethod.GET)
+    public String editAccount() {
         return "redirect:/edit-account/company";
     }
 
-    @RequestMapping(value = "/edit-candidate-account/{id}", method = {RequestMethod.GET})
-    public String editCandidateAccount(
-            @PathVariable(value = "id") Long id,
-            ModelMap model) {
-//        Candidate candidate = candidateService.findById(id);
-//        model.put("candidateUsername", candidate.getUsername());
-        return "redirect:/edit-account/candidate";
+    @RequestMapping(value = "/under-construction")
+    public String underConstruction() {
+        return "under-construction-home";
     }
-
-    @RequestMapping(value = "/edit-admin-account/{id}", method = {RequestMethod.GET})
-    public String editAdminAccount(
-            @PathVariable(value = "id") Long id,
-            ModelMap model) {
-//        Administrator administrator = (Administrator) userService.findById(id);
-//        model.put("adminUsername", administrator.getUsername());
-        return "redirect:/edit-account/admin";
-    }
-
-    @RequestMapping(value = "/create-company")
-    public String createCompany() {
-        return "redirect:/registration/company";
-    }
-
-    @RequestMapping(value = "/create-candidate")
-    public String createCandidate() {
-        return "redirect:/registration/candidate";
-    }
-
 
 }

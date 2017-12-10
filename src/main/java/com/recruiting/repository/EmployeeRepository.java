@@ -1,6 +1,8 @@
 package com.recruiting.repository;
 
 import com.recruiting.domain.Employee;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -11,5 +13,10 @@ import java.util.List;
 public interface EmployeeRepository extends BaseRepository<Employee> {
 
     List<Employee> findAllByDtypeAndDtypeNotNull(String dtype);
+
     Employee findByUsername(String username);
+
+    Page<Employee> findAllByDtypeAndDtypeNotNull(String dtype, Pageable pageable);
+
+    Page<Employee> findAllBy(Pageable pageable);
 }

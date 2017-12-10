@@ -9,12 +9,18 @@ import java.time.LocalTime;
 
 /**
  * @author Marta Ginosyan
- * Date: 11/14/17
  */
+
 @Entity
 @Table(name = "company_config")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CompanyConfig extends AbstractDomain implements Serializable {
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "dispose_type_employee")
     private String vacationDisposeTypeForEmployee;
@@ -50,8 +56,10 @@ public class CompanyConfig extends AbstractDomain implements Serializable {
     public CompanyConfig() {
     }
 
-    public CompanyConfig(String ssn, String vacationDisposeTypeForEmployee, String vacationDisposeTypeForHR, WorkingHoursScheme defaultWorkingHoursScheme, Double vacationPerMonth, Double validVacationPeriod, LocalTime lunchStartTime, Double lunchDuration, Boolean vacationInAdvanceAllowed, Boolean halfDayTimeOffAllowed, Boolean isActive) {
+    public CompanyConfig(String ssn, String name, String email, String vacationDisposeTypeForEmployee, String vacationDisposeTypeForHR, WorkingHoursScheme defaultWorkingHoursScheme, Double vacationPerMonth, Double validVacationPeriod, LocalTime lunchStartTime, Double lunchDuration, Boolean vacationInAdvanceAllowed, Boolean halfDayTimeOffAllowed, Boolean isActive) {
         super(ssn);
+        this.name = name;
+        this.email = email;
         this.vacationDisposeTypeForEmployee = vacationDisposeTypeForEmployee;
         this.vacationDisposeTypeForHR = vacationDisposeTypeForHR;
         this.defaultWorkingHoursScheme = defaultWorkingHoursScheme;
@@ -62,6 +70,22 @@ public class CompanyConfig extends AbstractDomain implements Serializable {
         this.vacationInAdvanceAllowed = vacationInAdvanceAllowed;
         this.halfDayTimeOffAllowed = halfDayTimeOffAllowed;
         this.isActive = isActive;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getVacationDisposeTypeForEmployee() {

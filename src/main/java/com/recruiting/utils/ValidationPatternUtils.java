@@ -3,8 +3,9 @@ package com.recruiting.utils;
 import java.text.DecimalFormat;
 
 /**
- * Created by Martha on 5/8/2017.
+ * @author Marta Ginosyan
  */
+
 public class ValidationPatternUtils {
 
     public static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";

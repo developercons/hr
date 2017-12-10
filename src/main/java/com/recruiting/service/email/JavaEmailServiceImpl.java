@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Martha on 9/4/2017.
+ * @author Marta Ginosyan
  */
+
 @Service("javaEmailService")
 public class JavaEmailServiceImpl extends AbstractEmailService implements EmailService{
 

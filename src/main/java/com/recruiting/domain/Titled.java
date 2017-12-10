@@ -1,8 +1,9 @@
 package com.recruiting.domain;
 
 /**
- * Created by Martha on 6/12/2017.
+ * @author Marta Ginosyan
  */
+
 public interface Titled {
     String getTitle();
 

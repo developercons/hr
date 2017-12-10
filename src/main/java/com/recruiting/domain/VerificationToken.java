@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
  * @author Marta Ginosyan
  * Date: 10/22/17
  */
+
 @Entity
 @Table(name = "verification_token")
 @JsonIgnoreProperties(ignoreUnknown = true)

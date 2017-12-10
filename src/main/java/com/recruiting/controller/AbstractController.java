@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
- * Created by Martha on 6/29/2017.
+ * @author Marta Ginosyan
  */
 
 public abstract class AbstractController {
@@ -25,7 +25,7 @@ public abstract class AbstractController {
         return user.getApproved();
     }
 
-//    protected Model prepareModelForConversationPreviewAndNewMessage(Model model,
+    //    protected Model prepareModelForConversationPreviewAndNewMessage(Model model,
 //            Pageable pageable,
 //            Long conversationId,
 //            Message message) {
@@ -71,7 +71,8 @@ public abstract class AbstractController {
 //    }
 //
     protected User getAuthorizedUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth = SecurityContextHolder.getContext()
+                .getAuthentication();
         String authName = auth.getName();
         return userService.findUserByUsername(authName);
     }

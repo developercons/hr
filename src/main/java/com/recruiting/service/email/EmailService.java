@@ -1,8 +1,9 @@
 package com.recruiting.service.email;
 
 /**
- * Created by Martha on 6/25/2017.
+ * @author Marta Ginosyan
  */
+
 public interface EmailService {
 
     void sendCandidateAccountCreation(String email, String name, String key);

@@ -6,8 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Martha on 5/4/2017.
+ * @author Marta Ginosyan
  */
+
 public class ConstantLabels {
 
     public static List<StringItemModel> REGISTRATION_TYPES_LIST = registrationTypes();

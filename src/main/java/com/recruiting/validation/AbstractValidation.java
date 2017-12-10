@@ -14,8 +14,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Martha on 5/14/2017.
+ * @author Marta Ginosyan
  */
+
 @PropertySource("classpath:validation.properties")
 public class AbstractValidation {
 

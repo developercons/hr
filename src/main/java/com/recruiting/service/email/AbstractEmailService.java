@@ -6,8 +6,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * Created by Martha on 9/4/2017.
+ * @author Marta Ginosyan
  */
+
 public abstract class AbstractEmailService {
 
     protected String fileReader(String filePath) {

@@ -17,8 +17,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDateTime;
 
 /**
- * Created by Martha on 5/4/2017.
+ * @author Marta Ginosyan
  */
+
 @Controller
 @RequestMapping(value = "/registration")
 public class RegistrationController {
@@ -28,7 +29,8 @@ public class RegistrationController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String register(Model model) {
-        String error = (String) model.asMap().get("error");
+        String error = (String) model.asMap()
+                .get("error");
         model.addAttribute("error", StringUtils.isNullOrEmpty(error) ? null : error);
         model.addAttribute("registrationtypes", ConstantLabels.REGISTRATION_TYPES_LIST);
         model.addAttribute("choosenType", new StringItemModel());
@@ -51,7 +53,8 @@ public class RegistrationController {
             return "redirect:/registration";
         }
 
-        if (verificationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+        if (verificationToken.getExpiryDate()
+                .isBefore(LocalDateTime.now())) {
             String messageValue = "Token expired.";
             redirectAttributes.addFlashAttribute("error", messageValue);
             return "redirect:/registration";

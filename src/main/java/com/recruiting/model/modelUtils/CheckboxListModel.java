@@ -5,8 +5,9 @@ import com.recruiting.domain.AbstractTitledDomain;
 import java.io.Serializable;
 
 /**
- * Created by Martha on 6/11/2017.
+ * @author Marta Ginosyan
  */
+
 public class CheckboxListModel<T extends AbstractTitledDomain> extends Model implements Serializable {
 
     private T model;

@@ -1,8 +1,9 @@
 package com.recruiting.utils;
 
 /**
- * Created by Martha on 4/28/2017.
+ * @author Marta Ginosyan
  */
+
 public class StringUtils {
 
     public static final String EMPTY = "";

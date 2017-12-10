@@ -12,8 +12,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Martha on 5/20/2017.
+ * @author Marta Ginosyan
  */
+
 public class StringToDateConverter extends StringToObject implements GenericConverter {
 
     private SimpleDateFormat usDateFormatter;

@@ -6,8 +6,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
- * Created by garik on 30/03/17.
+ * @author Marta Ginosyan
  */
+
 @Converter(autoApply = true)
 public class LocalDateTimeAttributeConverter implements AttributeConverter<LocalDateTime, Timestamp> {
 
