@@ -56,6 +56,12 @@ public class EmployeeController extends AbstractController {
         IndividualTimeOff individualTimeOff = employeeDetailsModel.getNewIndividualTimeOff();
         individualTimeOff.setUser(getAuthorizedUser());
         timeOffService.saveIndividualTimeOff(employeeDetailsModel.getNewIndividualTimeOff());
+        return "redirect:/employee/request-time-off";
+    }
+
+    @RequestMapping(value = "/request-time-off/delete/{time-off-id}", method = RequestMethod.GET)
+    public String requestTimeOff(@PathVariable("time-off-id") Long timeOffId) {
+        timeOffService.deleteTimeOff(timeOffId);
         return "redirect:/employee/home";
     }
 

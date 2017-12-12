@@ -37,7 +37,7 @@
                 <div th:each="cons,rowStat : ${pageWrapper.page.content}">
                     <!-- Item #1 -->
                     <tr>
-                        <td class="title" th:text="${cons.employeeName}"><a th:href="@{/admin/employee/preview/__${cons.employeeId}__}" th:target="_blank"></a></td>
+                        <td class="title" th:text="${cons.employeeName}"><a th:href="@{/admin/under-construction}" th:target="_blank"></a></td>
                         <td th:text="${#temporals.format(cons.joinDate, 'EEEE MM-dd-yyyy HH:mm')}"></td>
                         <td th:text="${cons.balancedVacationConsumption.vacationTakenFromIndate}"></td>
                         <td th:text="${cons.balancedVacationConsumption.vacationTakenFromOutDate}"></td>

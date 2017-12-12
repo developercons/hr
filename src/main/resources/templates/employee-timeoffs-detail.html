@@ -39,14 +39,14 @@
                 <div th:each="cons,rowStat : ${pageWrapper.page.content}">
                     <!-- Item #1 -->
                     <tr>
-                        <td class="title" th:text="${cons.reason.title}"><a th:href="@{/admin/employee/preview/__${cons.employeeId}__}" th:target="_blank"></a></td>
+                        <td class="title" th:text="${cons.reason.title}"><a th:href="@{/employee/under-construction}" th:target="_blank"></a></td>
                         <td th:text="${#temporals.format(cons.start, 'EEEE MM-dd-yyyy HH:mm')}"></td>
                         <td th:text="${#temporals.format(cons.end, 'EEEE MM-dd-yyyy HH:mm')}"></td>
                         <td class="title" th:text="${cons.approved}"></td>
                         <td class="title" th:text="${cons.reason.disposableFromVacation}"></td>
                         <td class="title" th:text="${cons.disposed}"></td>
                         <td th:if="${!cons.approved}" class="action">
-                            <a th:href="@{/employee/under-construction}" class="delete"><i class="fa fa-remove"></i> Delete</a>
+                            <a th:href="@{/employee/request-time-off/delete/__${cons.id}__}" class="delete"><i class="fa fa-remove"></i> Delete</a>
                         </td>
                     </tr>
                 </div>
