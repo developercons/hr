@@ -1,6 +1,7 @@
 package com.recruiting.controller;
 
 import com.recruiting.domain.IndividualTimeOff;
+import com.recruiting.domain.User;
 import com.recruiting.service.employee.EmployeeDetailService;
 import com.recruiting.service.employee.dto.model.EmployeeDetailsModel;
 import com.recruiting.service.entity.TimeOffService;
@@ -84,6 +85,22 @@ public class EmployeeController extends AbstractController {
         model.addAttribute("pageWrapper", timeOffService.getNotApprovedTimeOffRequests(getAuthorizedUser(), pageable));
         model.addAttribute("user", getAuthorizedUser());
         return "employee-non-approved-requests";
+    }
+
+    @RequestMapping(value = "/time-off-summary", method = RequestMethod.GET)
+    public String employeeTimeOffSummary(Model model) {
+        User user = getAuthorizedUser();
+        model.addAttribute("pageWrapper", employeeDetailService.getTimeOffSummaryForEmployee(user.getId(), new PageRequest(0, 3)));
+        model.addAttribute("user", user);
+        return "employee-timeoff-summary";
+    }
+
+    @RequestMapping(value = "/time-off-summary/next-page", method = RequestMethod.POST)
+    public String employeeTimeOffSummary(Model model, Pageable pageable) {
+        User user = getAuthorizedUser();
+        model.addAttribute("pageWrapper", employeeDetailService.getTimeOffSummaryForEmployee(getAuthorizedUser().getId(), pageable));
+        model.addAttribute("user", user);
+        return "employee-timeoff-summary";
     }
 
     @RequestMapping(value = "/time-off-request/delete/{id}", method = RequestMethod.GET)

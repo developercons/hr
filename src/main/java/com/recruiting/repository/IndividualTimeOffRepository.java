@@ -23,7 +23,7 @@ public interface IndividualTimeOffRepository extends BaseRepository<IndividualTi
 
     List<IndividualTimeOff> findAllByStartAfterAndApprovedFalseAndUser(LocalDateTime startAfter, User user);
 
-    Page<IndividualTimeOff> findAllByApprovedFalse(Pageable pageable);
+    Page<IndividualTimeOff> findAllByApprovedFalseOrderByCreatedAtDesc(Pageable pageable);
 
     Page<IndividualTimeOff> findAllByApprovedFalseAndUser(User user, Pageable pageable);
 

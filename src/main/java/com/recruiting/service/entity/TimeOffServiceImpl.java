@@ -51,7 +51,7 @@ public class TimeOffServiceImpl implements TimeOffService {
 
     @Override
     public PageWrapper<IndividualTimeOff> getNotApprovedTimeOffRequests(Pageable pageable) {
-        Page<IndividualTimeOff> timeOffs = individualTimeOffRepository.findAllByApprovedFalse(pageable);
+        Page<IndividualTimeOff> timeOffs = individualTimeOffRepository.findAllByApprovedFalseOrderByCreatedAtDesc(pageable);
         if (!timeOffs.hasContent()) {
             return new PageWrapper<>();
         }

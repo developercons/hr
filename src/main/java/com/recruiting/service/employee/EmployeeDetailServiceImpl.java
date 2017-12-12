@@ -13,14 +13,12 @@ import com.recruiting.repository.TimeOffTypeRepository;
 import com.recruiting.service.employee.dto.model.EmployeeDetailsModel;
 import com.recruiting.service.employee.dto.model.EmployeeFullDetailsModel;
 import com.recruiting.service.employee.dto.model.EmployeeModel;
+import com.recruiting.service.employee.dto.model.TimeOffSummaryModel;
 import com.recruiting.service.vacation.VacationCalculationService;
 import com.recruiting.utils.DateTimeUtils;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Hashtable;
@@ -97,7 +95,7 @@ public class EmployeeDetailServiceImpl implements EmployeeDetailService {
         model.setEmployeeName(employee.getName());
         model.setJoinDate(employee.getJoiningDate());
         model.setLeaveDate(employee.getLeavingDate());
-        model.setTimeOffSummary(getTimeOffSummaryForEmployee(employee));
+        model.setTimeOffSummary(getTimeOffSummaryMapForEmployee(employee));
         model.setNewIndividualTimeOff(new IndividualTimeOff());
 
         vacationCalculationService.calculateEmployeeDetailsVacationData(model, individualTimeOffs, vacationPerMonth, validVacationPeriod);
@@ -110,7 +108,7 @@ public class EmployeeDetailServiceImpl implements EmployeeDetailService {
     }
 
     @Override
-    public Map<String, Long> getTimeOffSummaryForEmployee(Employee employee) {
+    public Map<String, Long> getTimeOffSummaryMapForEmployee(Employee employee) {
 
         Map<String, Long> summary = new Hashtable<>();
 
@@ -131,7 +129,53 @@ public class EmployeeDetailServiceImpl implements EmployeeDetailService {
     }
 
     @Override
-    public Map<String, Long> getTimeOffSummaryForEmployee(Long id) {
+    public Map<String, TimeOffSummaryModel> getTimeOffSummaryForEmployee(Employee employee) {
+
+        Map<String, TimeOffSummaryModel> summary = new Hashtable<>();
+
+        List<TimeOffType> timeOffTypes = timeOffTypeRepository.findAll();
+        if (timeOffTypes == null) return null;
+        timeOffTypes.forEach(timeOffType -> Optional.ofNullable(individualTimeOffRepository.findAllByApprovedTrueAndReasonAndUser(timeOffType, employee))
+                .ifPresent(individualTimeOffs -> individualTimeOffs
+                        .forEach(individualTimeOff -> {
+                            TimeOffSummaryModel timeOffSummaryModel = summary.get(timeOffType.getTitle());
+                            if (timeOffSummaryModel == null){
+                                timeOffSummaryModel = new TimeOffSummaryModel();
+                                summary.put(timeOffType.getTitle(), timeOffSummaryModel);
+                                timeOffSummaryModel.setDisposable(individualTimeOff.getReason().getDisposableFromVacation());
+                                timeOffSummaryModel.setTitle(individualTimeOff.getReason().getTitle());
+                            }
+                            long days = DateTimeUtils.calculateDays(individualTimeOff.getStart(), individualTimeOff.getEnd());
+                            long oldOverall = timeOffSummaryModel.getOverall();
+                            long newOverall = oldOverall + days;
+                            long oldDisposed = timeOffSummaryModel.getDisposed();
+                            long newDisposed = oldDisposed + (individualTimeOff.getDisposed() ? days : 0);
+                            long oldNotDisposed = timeOffSummaryModel.getNotDisposed();
+                            long newNotDisposed = oldNotDisposed + (!individualTimeOff.getDisposed() ? days : 0);
+                            long oldDisposedHR = timeOffSummaryModel.getDisposedHR();
+                            long newDisposedHR = oldDisposedHR + (individualTimeOff.getDisposed_hr() ? days : 0);
+                            timeOffSummaryModel.setOverall(newOverall);
+                            timeOffSummaryModel.setDisposed(newDisposed);
+                            timeOffSummaryModel.setNotDisposed(newNotDisposed);
+                            timeOffSummaryModel.setDisposedHR(newDisposedHR);
+                            summary.replace(timeOffType.getTitle(), timeOffSummaryModel);
+                        })));
+        return summary;
+    }
+
+    @Override
+    public Map<String, TimeOffSummaryModel> getTimeOffSummaryForEmployee(Long id) {
         return getTimeOffSummaryForEmployee(employeeRepository.findOne(id));
+    }
+
+    @Override
+    public PageWrapper<TimeOffSummaryModel> getTimeOffSummaryForEmployee(Long id, Pageable pageable) {
+        Map<String, TimeOffSummaryModel> timeOffSummaryModelMap = getTimeOffSummaryForEmployee(employeeRepository.findOne(id));
+        if (timeOffSummaryModelMap.isEmpty()) {
+            return new PageWrapper<>();
+        }
+        Page<TimeOffSummaryModel> page = new PageImpl<>(Lists.newArrayList(timeOffSummaryModelMap.values()), pageable, 3);
+        PageWrapper<TimeOffSummaryModel> pageWrapper = new PageWrapper<>(page, "");
+        return pageWrapper;
     }
 }

@@ -60,10 +60,27 @@ public class AdminController extends AbstractController {
         return "admin-home-outdated";
     }
 
+    @RequestMapping(value = "/home/vacations-disposed-from-outdated/next-page", method = RequestMethod.POST)
+    public String vacationsFromOutdated(
+            Model model,
+            Pageable pageable) {
+        PageWrapper<EmployeeDetailsModel> pageWrapper = adminService.getEmployeeDetails(pageable);
+        model.addAttribute("pageWrapper", pageWrapper);
+        return "admin-home-outdated";
+    }
+
     @RequestMapping(value = "/home/vacations-disposed-balanced", method = RequestMethod.GET)
     public String vacationsBalanced(
             Model model) {
         PageWrapper<EmployeeDetailsModel> pageWrapper = adminService.getEmployeeDetails(new PageRequest(0, 3));
+        model.addAttribute("pageWrapper", pageWrapper);
+        return "admin-home-balanced";
+    }
+
+    @RequestMapping(value = "/home/vacations-disposed-balanced/next-page", method = RequestMethod.POST)
+    public String vacationsBalanced(
+            Model model, Pageable pageable) {
+        PageWrapper<EmployeeDetailsModel> pageWrapper = adminService.getEmployeeDetails(pageable);
         model.addAttribute("pageWrapper", pageWrapper);
         return "admin-home-balanced";
     }
@@ -108,28 +125,45 @@ public class AdminController extends AbstractController {
         return "admin-employee-timeoffs-detail";
     }
 
+    @RequestMapping(value = "/employee/time-off-summary/{id}", method = RequestMethod.GET)
+    public String employeeTimeOffSummary(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("pageWrapper", employeeDetailService.getTimeOffSummaryForEmployee(id, new PageRequest(0, 3)));
+        model.addAttribute("employee", userService.findById(id));
+        return "admin-timeoff-summary";
+    }
+
+    @RequestMapping(value = "/employee/time-off-summary/next-page/{id}", method = RequestMethod.POST)
+    public String employeeTimeOffSummary(@PathVariable("id") Long id, Model model, Pageable pageable) {
+        model.addAttribute("pageWrapper", employeeDetailService.getTimeOffSummaryForEmployee(id, pageable));
+        model.addAttribute("employee", userService.findById(id));
+        return "admin-timeoff-summary";
+    }
+
     @RequestMapping(value = "/employee/preview/{id}", method = RequestMethod.GET)
     public String previewEmployeeTimeOffs(@PathVariable("id") Long id, Model model) {
         model.addAttribute("employeeMap", employeeDetailService.getTimeOffSummaryForEmployee(id));
         return "redirect:/admin/employees/time-off-requests/";
     }
 
-    @RequestMapping(value = "/employees/time-off-request/approve/{id}", method = RequestMethod.GET)
-    public String approveTimeOff(@PathVariable("id") Long id) {
-        timeOffService.approveTimeOff(id);
-        return "redirect:/admin";
+    @RequestMapping(value = "/employees/time-off-request/approve/{time-off-id}/{user-id}/{refering}", method = RequestMethod.GET)
+    public String approveTimeOff(@PathVariable("time-off-id") Long timeOffId, @PathVariable("user-id") Long userId, @PathVariable("refering") String refering) {
+        timeOffService.approveTimeOff(timeOffId);
+        if(refering.equals("details"))return "redirect:/admin/employee/time-off-details/" + userId + "/";
+        else return "redirect:/admin/employees/time-off-requests/";
     }
 
-    @RequestMapping(value = "/employees/time-off/delete/{id}", method = RequestMethod.GET)
-    public String deleteTimeOff(@PathVariable("id") Long id) {
-        timeOffService.deleteTimeOff(id);
-        return "redirect:/admin";
+    @RequestMapping(value = "/employees/time-off/delete/{time-off-id}/{user-id}/{refering}", method = RequestMethod.GET)
+    public String deleteTimeOff(@PathVariable("time-off-id") Long timeOffId, @PathVariable("user-id") Long userId, @PathVariable("refering") String refering) {
+        timeOffService.deleteTimeOff(timeOffId);
+        if(refering.equals("details"))return "redirect:/admin/employee/time-off-details/" + userId + "/";
+        else return "redirect:/admin/employees/time-off-requests/";
     }
 
-    @RequestMapping(value = "/employees/time-off/dispose/{id}", method = RequestMethod.GET)
-    public String disposeTimeOff(@PathVariable("id") Long id) {
-        timeOffService.disposeTimeOff(id);
-        return "redirect:/admin";
+    @RequestMapping(value = "/employees/time-off/dispose/{time-off-id}/{user-id}/{refering}", method = RequestMethod.GET)
+    public String disposeTimeOff(@PathVariable("time-off-id") Long timeOffId, @PathVariable("user-id") Long userId, @PathVariable("refering") String refering) {
+        timeOffService.disposeTimeOff(timeOffId);
+        if(refering.equals("details"))return "redirect:/admin/employee/time-off-details/" + userId + "/";
+        else return "redirect:/admin/employees/time-off-requests/";
     }
 
     @RequestMapping(value = "/company-configurations", method = RequestMethod.GET)

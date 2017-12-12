@@ -50,7 +50,7 @@
                             <td class="title" th:text="${cons.reason.disposableFromVacation}"></td>
                             <td class="title" th:text="${cons.disposed}"></td>
                             <td class="action">
-                                <a th:href="@{/employee/time-off-request/delete/__${cons.id}__}" class="delete"><i
+                                <a th:href="@{/employee/time-off-request/delete/__${cons.id}__/__${cons.user.id}__}" class="delete"><i
                                         class="fa fa-remove"></i> Delete</a>
                             </td>
                         </tr>

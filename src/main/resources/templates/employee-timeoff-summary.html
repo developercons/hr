@@ -5,57 +5,53 @@
 <!--<html lang="en"> &lt;!&ndash;<![endif]&ndash;&gt;-->
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/home">
 <section layout:fragment="content" th:remove="tag">
-    <!-- Titlebar
-    ================================================== -->
-    <div id="titlebar">
-        <div class="container">
-            <div class="ten columns">
-                <h2>Employee vacation details. Disposed fairly.</h2>
-            </div>
-        </div>
-    </div>
+
     <!-- Content
     ================================================== -->
     <div class="container"  th:if="${pageWrapper.getItems().size() != 0}">
-        <form th:action="@{/admin/home/vacations-disposed-balanced/next-page}" th:object="${pageWrapper}" method="post" id="pageWrapper" name="pageWrapper">
+        <form th:action="@{/employee/time-off-summary/next-page}" th:object="${pageWrapper}" method="post" id="pageWrapper" name="pageWrapper">
 
+            <!-- Titlebar
+                ================================================== -->
+            <div id="titlebar">
+                <div class="container">
+                    <div class="ten columns">
+                        <h2 th:text="${user.name}"></h2>
+                    </div>
+                </div>
+            </div>
 
             <table class="manage-table resumes responsive-table">
 
                 <tr>
-                    <th><i class="fa fa-user"></i> Name</th>
-                    <th><i class="fa fa-calendar"></i> Join date</th>
-                    <th><i class="fa fa-envelope"></i> Vacation from Indate</th>
-                    <th><i class="fa fa-envelope"></i> Vacation from Outdate</th>
-                    <th><i class="fa fa-envelope"></i> Time-off from indate</th>
-                    <th><i class="fa fa-envelope"></i> Time-off from outdate</th>
-                    <th><i class="fa fa-envelope"></i> Indate vacation debt</th>
-                    <th><i class="fa fa-envelope"></i> Outdate vacation debt</th>
+                    <th ><i class="fa fa-calendar"></i> Time off type</th>
+                    <th><i class="fa fa-envelope"></i> Disposable</th>
+                    <th><i class="fa fa-envelope"></i> Overall</th>
+                    <th><i class="fa fa-envelope"></i> Disposed</th>
+                    <th><i class="fa fa-envelope"></i> Not disposed</th>
+                    <th><i class="fa fa-envelope"></i> Disposed by HR</th>
+
                     <th></th>
                 </tr>
 
                 <div th:each="cons,rowStat : ${pageWrapper.page.content}">
                     <!-- Item #1 -->
                     <tr>
-                        <td class="title" th:text="${cons.employeeName}"><a th:href="@{/admin/employee/preview/__${cons.employeeId}__}" th:target="_blank"></a></td>
-                        <td th:text="${#temporals.format(cons.joinDate, 'EEEE MM-dd-yyyy HH:mm')}"></td>
-                        <td th:text="${cons.balancedVacationConsumption.vacationTakenFromIndate}"></td>
-                        <td th:text="${cons.balancedVacationConsumption.vacationTakenFromOutDate}"></td>
-                        <td th:text="${cons.balancedVacationConsumption.timeOffFromIndate}"></td>
-                        <td th:text="${cons.balancedVacationConsumption.timeOffFromOutdate}"></td>
-                        <td th:text="${cons.balancedVacationConsumption.vacationInAdvanceFromIndate}"></td>
-                        <td th:text="${cons.balancedVacationConsumption.vacationInAdvanceFromOutDate}"></td>
+                        <td class="title" th:text="${cons.title}"><a th:href="@{/employee/preview/__${cons.employeeId}__}" th:target="_blank"></a></td>
+                        <td class="title" th:text="${cons.disposable}"></td>
+                        <td class="title" th:text="${cons.overall}"></td>
+                        <td class="title" th:text="${cons.disposed}"></td>
+                        <td class="title" th:text="${cons.notDisposed}"></td>
+                        <td class="title" th:text="${cons.disposedHR}"></td>
                         <td class="action">
-                            <a th:href="@{/admin/under-construction}"><i class="fa fa-pencil"></i> Edit</a>
-                            <div class="clearfix"></div>
-                            <a th:href="@{/admin/employee/time-off-details/__${cons.employeeId}__}"><i class="fa fa-folder"></i> Show</a>
-                            <div class="clearfix"></div>
-                            <a th:href="@{/admin/under-construction}" class="delete"><i class="fa fa-remove"></i> Delete</a>
+                            <a th:href="@{/employee/under-construcion}"><i class="fa fa-pencil"></i> Details</a>
+                            <a th:href="@{/employee/under-construction}" class="delete"><i class="fa fa-remove"></i> Dispose all</a>
                         </td>
                     </tr>
                 </div>
 
             </table>
+            <div class="clearfix"></div>
 
             <!-- Recent Jobs -->
             <div class="eleven columns" id="leftPanel">
@@ -77,6 +73,16 @@
                                 <li th:class="${pageWrapper.hasNextPage}? '' : 'disabled'">
                                     <a th:if="${not pageWrapper.hasNextPage}">»</a>
                                     <a th:if="${pageWrapper.hasNextPage}" th:href="'javascript:navigatePage(' + ${pageWrapper.number+1} + ',' + ${pageWrapper.size} + ')'">»</a>
+                                </li>
+                            </ul>
+                            <ul class="resumes-list" th:if="${pageWrapper.getItems().size() == 0}">
+                                <li>
+                                    <div class="resumes-list-content">
+                                        <h4>
+                                            No time-off requests.
+                                        </h4>
+                                    </div>
+                                    <div class="clearfix"></div>
                                 </li>
                             </ul>
                         </nav>

@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface EmployeeRepository extends BaseRepository<Employee> {
 
-    List<Employee> findAllByDtypeAndDtypeNotNull(String dtype);
+    List<Employee> findAllByDtypeAndDtypeNotNullAndLeavedFalse(String dtype);
 
     Employee findByUsername(String username);
 

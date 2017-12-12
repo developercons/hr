@@ -78,7 +78,8 @@ public class DataLoader {
                 LocalDateTime.of(2014, 10, 1, 10, 00),
                 null,
                 Lists.newArrayList(authority),
-                workingHoursScheme));
+                workingHoursScheme,
+                false));
 
         Employee hayk = userRepository.save(new Employee(
                 BusKeyGen.nextKey(),
@@ -94,7 +95,8 @@ public class DataLoader {
                 LocalDateTime.of(2012, 11, 19, 10, 0),
                 null,
                 Lists.newArrayList(authority),
-                workingHoursScheme));
+                workingHoursScheme,
+                false));
 
         Employee ani = userRepository.save(new Employee(
                 BusKeyGen.nextKey(),
@@ -110,7 +112,8 @@ public class DataLoader {
                 LocalDateTime.of(2010, 1, 12, 10, 0),
                 null,
                 Lists.newArrayList(authority),
-                workingHoursScheme));
+                workingHoursScheme,
+                false));
 
         Employee tatevik = userRepository.save(new Employee(
                 BusKeyGen.nextKey(),
@@ -126,7 +129,8 @@ public class DataLoader {
                 LocalDateTime.of(2015, 6, 1, 10, 0),
                 null,
                 Lists.newArrayList(authority),
-                workingHoursScheme));
+                workingHoursScheme,
+                false));
 
         Employee varduhi = userRepository.save(new Employee(
                 BusKeyGen.nextKey(),
@@ -142,7 +146,8 @@ public class DataLoader {
                 LocalDateTime.of(2011, 12, 27, 10, 00),
                 null,
                 Lists.newArrayList(authority, authority_admin),
-                workingHoursScheme));
+                workingHoursScheme,
+                false));
 
         Employee lilit = userRepository.save(new Employee(
                 BusKeyGen.nextKey(),
@@ -158,7 +163,8 @@ public class DataLoader {
                 LocalDateTime.of(2014, 6, 23, 10, 0),
                 null,
                 Lists.newArrayList(authority),
-                workingHoursScheme));
+                workingHoursScheme,
+                false));
 
     }
 

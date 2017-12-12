@@ -36,15 +36,15 @@
                         <!-- Item #1 -->
                         <tr>
                             <td class="title" th:text="${cons.user.name}"><a
-                                    th:href="@{/admin/employee/preview/__${cons.employeeId}__}" th:target="_blank"></a>
+                                    th:href="@{/admin/under-construction}" th:target="_blank"></a>
                             </td>
                             <td th:text="${cons.reason.title}"></td>
                             <td th:text="${#temporals.format(cons.start, 'EEEE MM-dd-yyyy HH:mm')}"></td>
                             <td th:text="${#temporals.format(cons.end, 'EEEE MM-dd-yyyy HH:mm')}"></td>
                             <td class="action">
-                                <a th:href="@{/admin/employees/time-off-request/approve/__${cons.id}__}"><i
+                                <a th:href="@{/admin/employees/time-off-request/approve/__${cons.id}__/__${cons.user.id}__/__'request'__}"><i
                                         class="fa fa-pencil"></i> Approve</a>
-                                <a th:href="@{/admin/employees/time-off/delete/__${cons.id}__}" class="delete"><i
+                                <a th:href="@{/admin/employees/time-off/delete/__${cons.id}__/__${cons.user.id}__/__'request'__}" class="delete"><i
                                         class="fa fa-remove"></i> Delete</a>
                             </td>
                         </tr>

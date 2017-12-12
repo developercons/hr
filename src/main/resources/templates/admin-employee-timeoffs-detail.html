@@ -46,8 +46,8 @@
                         <td class="title" th:text="${cons.disposed}"></td>
                         <td class="title" th:text="${cons.disposed_hr}"></td>
                         <td class="action">
-                            <a th:href="@{/admin/employees/time-off-request/approve/__${cons.id}__}"><i class="fa fa-pencil"></i> Approve</a>
-                            <a th:href="@{/admin/employees/time-off/dispose/__${cons.id}__}" class="delete"><i class="fa fa-remove"></i> Dispose</a>
+                            <a th:href="@{/admin/employees/time-off-request/approve/__${cons.id}__/__${cons.user.id}__/__'details'__}"><i class="fa fa-pencil"></i> Approve</a>
+                            <a th:if="${cons.reason.disposableFromVacation and not cons.disposed}" th:href="@{/admin/employees/time-off/dispose/__${cons.id}__/__${cons.user.id}__}" class="delete"><i class="fa fa-remove"></i> Dispose</a>
                         </td>
                     </tr>
                 </div>

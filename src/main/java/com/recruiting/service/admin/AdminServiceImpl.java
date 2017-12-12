@@ -27,11 +27,9 @@ public class AdminServiceImpl implements AdminService{
     @Autowired
     private EmployeeRepository employeeRepository;
 
-
-
     @Override
     public List<EmployeeModel> getEmployees() {
-        List<Employee> employees = employeeRepository.findAllByDtypeAndDtypeNotNull("Employee");
+        List<Employee> employees = employeeRepository.findAllByDtypeAndDtypeNotNullAndLeavedFalse("Employee");
         List<EmployeeModel> employeesModel = new ArrayList<>();
         if(employees.isEmpty()) {
             return employeesModel;

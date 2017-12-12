@@ -22,8 +22,14 @@
                 <div class="ten columns">
                     <h3>Welcome</h3>
                     <h2 th:text="${employee.employeeName}"></h2>
-                    <h3>This is summary of your time-offs.</h3>
-                    <h3>For details navigate using "Details" button.</h3>
+                    <div class="clearfix"></div>
+                    <h3>Vacation days left (doesn't include day-offs)</h3>
+                    <h1 th:text="${employee.balancedVacationConsumption.vacationLeftFromIndate}"></h1>
+                    <div class="clearfix"></div>
+                    <h3>Vacation days outdated because of not taking on time (doesn't include day-offs)</h3>
+                    <h1 th:text="${employee.balancedVacationConsumption.vacationLeftFromOutdate}"></h1>
+                    <div class="clearfix"></div>
+                    <h3>For details navigate "Details" or "Summary".</h3>
                 </div>
             </div>
         </div>
@@ -35,25 +41,18 @@
                 <div class="sixteen columns">
                     <ul id="popular-categories">
 
-                        <li><a href="#"><i class="ln  ln-icon-Present"></i> Vacation earned (last 18 months)<i
-                                th:text="${employee.vacationEarnedFromIndate}"></i></a></li>
-                        <li><a href="#"><i class="ln ln-icon-Summer"></i> Vacation taken (last 18 months)<i
-                                th:text="${employee.balancedVacationConsumption.vacationTakenFromIndate}"></i></a></li>
+                        <li><a href="#"><i class="ln  ln-icon-Present"></i> Vacation earned<i
+                                th:text="${employee.overallVacationGranted}"></i></a></li>
+                        <li><a href="#"><i class="ln ln-icon-Summer"></i> Vacation taken<i
+                                th:text="${employee.overALLDisposedVacationTaken}"></i></a></li>
+                        <li><a href="#"><i class="ln  ln-icon-Tongue"></i> Days-0ffs taken<i
+                                th:text="${employee.overallTimeOffTaken}"></i></a></li>
+                        <li><a href="#"><i class="ln  ln-icon-Dashboard"></i>Vacation in advance<i
+                                th:text="${employee.overallVacationInAdvance}"></i></a>
+                        </li>
 
-                        <li><a href="#"><i class="ln  ln-icon-Tongue"></i> Vacation left (last 18 months)<i
-                                th:text="${employee.balancedVacationConsumption.vacationLeftFromIndate}"></i></a></li>
-                        <li><a href="#"><i class="ln  ln-icon-Dashboard"></i> Vacation in advance (last 18 months)<i
-                                th:text="${employee.balancedVacationConsumption.vacationInAdvanceFromIndate}"></i></a>
-                        </li>
-                        <li><a href="#"><i class="ln  ln-icon-Present"></i> Vacation earned (before 18 months)<i
-                                th:text="${employee.vacationEarnedFromOutdated}"></i></a></li>
-                        <li><a href="#"><i class="ln ln-icon-Summer"></i> Vacation taken (before 18 months)<i
-                                th:text="${employee.balancedVacationConsumption.vacationTakenFromOutDate}"></i></a></li>
-                        <li><a href="#"><i class="ln  ln-icon-Tongue"></i> Vacation left (before 18 months)<i
-                                th:text="${employee.balancedVacationConsumption.vacationLeftFromOutdate}"></i></a></li>
-                        <li><a href="#"><i class="ln  ln-icon-Dashboard"></i> Vacation in advance (before 18 months)<i
-                                th:text="${employee.balancedVacationConsumption.vacationInAdvanceFromOutDate}"></i></a>
-                        </li>
+
+
                         <li><a href="#"><i class="ln  ln-icon-Data-Key"></i> Missed key<i
                                 th:text="${employee.timeOffSummary['Missed Key']}"></i></a></li>
                         <li><a href="#"><i class="ln  ln-icon-United-Kingdom"></i> Business trip<i
@@ -62,8 +61,7 @@
                                 th:text="${employee.timeOffSummary['Medical Leave']}"></i></a></li>
                         <li><a href="#"><i class="ln  ln-icon-Present"></i> Working from home<i
                                 th:text="${employee.timeOffSummary['Working From Home']}"></i></a></li>
-                        <li><a href="#"><i class="ln ln-icon-Video-GameController"></i> Days-0ff taken<i
-                                th:text="${employee.overallTimeOffTaken}"></i></a></li>
+
                     </ul>
 
                     <div class="clearfix"></div>
@@ -71,10 +69,16 @@
 
                     <a th:href="@{/employee/details}" class="button">Details</a>
                     <div class="clearfix"></div>
-                    <div class="margin-top-30"></div>
+                    <div class="margin-top-15"></div>
+
+                    <a th:href="@{/employee/time-off-summary}" class="button">Summary</a>
+                    <div class="clearfix"></div>
+                    <div class="margin-top-15"></div>
+
                     <div>
                         <a href="#small-dialog" class="popup-with-zoom-anim button">Request Time-Off</a>
                     </div>
+
                     <div class="margin-bottom-50"></div>
                 </div>
             </div>

@@ -45,8 +45,8 @@
                         <td class="title" th:text="${cons.approved}"></td>
                         <td class="title" th:text="${cons.reason.disposableFromVacation}"></td>
                         <td class="title" th:text="${cons.disposed}"></td>
-                        <td class="action" th:if="${!cons.approved}">
-                            <a th:href="@{/admin//employees/time-off/dispose/__${cons.user.id}__}" class="delete"><i class="fa fa-remove"></i> Delete</a>
+                        <td th:if="${!cons.approved}" class="action">
+                            <a th:href="@{/employee/under-construction}" class="delete"><i class="fa fa-remove"></i> Delete</a>
                         </td>
                     </tr>
                 </div>
