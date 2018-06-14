@@ -1,9 +1,9 @@
 package com.recruiting.service.entity;
 
-import com.recruiting.domain.Authority;
-import com.recruiting.domain.PasswordResetToken;
-import com.recruiting.domain.User;
-import com.recruiting.domain.VerificationToken;
+import com.recruiting.entity.Authority;
+import com.recruiting.entity.PasswordResetToken;
+import com.recruiting.entity.User;
+import com.recruiting.entity.VerificationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**

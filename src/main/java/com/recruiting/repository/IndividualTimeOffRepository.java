@@ -1,9 +1,9 @@
 package com.recruiting.repository;
 
 
-import com.recruiting.domain.IndividualTimeOff;
-import com.recruiting.domain.TimeOffType;
-import com.recruiting.domain.User;
+import com.recruiting.entity.IndividualTimeOff;
+import com.recruiting.entity.TimeOffType;
+import com.recruiting.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

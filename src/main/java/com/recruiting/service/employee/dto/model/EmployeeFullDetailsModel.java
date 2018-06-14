@@ -1,6 +1,6 @@
 package com.recruiting.service.employee.dto.model;
 
-import com.recruiting.domain.IndividualTimeOff;
+import com.recruiting.entity.IndividualTimeOff;
 
 import java.util.List;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package com.recruiting.service.vacation.impl;
 
-import com.recruiting.domain.IndividualTimeOff;
+import com.recruiting.entity.IndividualTimeOff;
 import com.recruiting.service.employee.dto.model.EmployeeDetailsModel;
 import com.recruiting.service.employee.dto.model.EmployeeModel;
 import com.recruiting.service.employee.dto.model.VacationConsumptionModel;

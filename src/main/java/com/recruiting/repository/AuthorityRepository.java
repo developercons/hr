@@ -1,6 +1,6 @@
 package com.recruiting.repository;
 
-import com.recruiting.domain.Authority;
+import com.recruiting.entity.Authority;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 

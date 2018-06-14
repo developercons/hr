@@ -1,6 +1,6 @@
 package com.recruiting.repository;
 
-import com.recruiting.domain.PasswordResetToken;
+import com.recruiting.entity.PasswordResetToken;
 
 /**
  * @author Marta Ginosyan

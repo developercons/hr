@@ -1,6 +1,6 @@
 package com.recruiting.service.admin;
 
-import com.recruiting.domain.Employee;
+import com.recruiting.entity.Employee;
 import com.recruiting.model.modelUtils.PageWrapper;
 import com.recruiting.repository.EmployeeRepository;
 import com.recruiting.service.employee.EmployeeDetailService;

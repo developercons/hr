@@ -1,6 +1,6 @@
 package com.recruiting.service.employee.dto.model;
 
-import com.recruiting.domain.IndividualTimeOff;
+import com.recruiting.entity.IndividualTimeOff;
 import com.recruiting.utils.ValidationPatternUtils;
 
 import java.io.Serializable;

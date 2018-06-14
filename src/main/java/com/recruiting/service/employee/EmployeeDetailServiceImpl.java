@@ -1,10 +1,10 @@
 package com.recruiting.service.employee;
 
 
-import com.recruiting.domain.CompanyConfig;
-import com.recruiting.domain.Employee;
-import com.recruiting.domain.IndividualTimeOff;
-import com.recruiting.domain.TimeOffType;
+import com.recruiting.entity.CompanyConfig;
+import com.recruiting.entity.Employee;
+import com.recruiting.entity.IndividualTimeOff;
+import com.recruiting.entity.TimeOffType;
 import com.recruiting.model.modelUtils.PageWrapper;
 import com.recruiting.repository.CompanyConfigRepository;
 import com.recruiting.repository.EmployeeRepository;

@@ -1,9 +1,3 @@
-import com.recruiting.domain.Authority;
-import com.recruiting.domain.CompanyStaff;
-import com.recruiting.service.entity.GenericCrudService;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -33,11 +27,4 @@ public class DataUtils {
         return temp + "@" + temp + ".com";
     }
 
-    public static void initUser(GenericCrudService genericCrudService){
-        Authority authority = (Authority) genericCrudService.save(new Authority(COMAPANY));
-        List authorityList = new ArrayList();
-        authorityList.add(authority);
-        CompanyStaff companyStaff = new CompanyStaff(DataUtils.nextName(), "1234", DataUtils.nextEmail());
-        genericCrudService.save(companyStaff);
-    }
 }

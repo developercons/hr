@@ -1,6 +1,6 @@
 package com.recruiting.controller;
 
-import com.recruiting.domain.IndividualTimeOff;
+import com.recruiting.entity.IndividualTimeOff;
 import com.recruiting.model.modelUtils.PageWrapper;
 import com.recruiting.service.admin.AdminService;
 import com.recruiting.service.employee.EmployeeDetailService;

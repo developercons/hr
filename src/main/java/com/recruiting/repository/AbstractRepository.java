@@ -1,7 +1,7 @@
 package com.recruiting.repository;
 
 
-import com.recruiting.domain.AbstractDomain;
+import com.recruiting.entity.AbstractDomain;
 
 /**
  * @author Marta Ginosyan

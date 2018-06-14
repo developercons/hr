@@ -1,7 +1,7 @@
 package com.recruiting.controller;
 
-import com.recruiting.domain.IndividualTimeOff;
-import com.recruiting.domain.User;
+import com.recruiting.entity.IndividualTimeOff;
+import com.recruiting.entity.User;
 import com.recruiting.service.employee.EmployeeDetailService;
 import com.recruiting.service.employee.dto.model.EmployeeDetailsModel;
 import com.recruiting.service.entity.TimeOffService;

@@ -1,7 +1,7 @@
 package com.recruiting.controller;
 
-import com.recruiting.domain.PasswordResetToken;
-import com.recruiting.domain.User;
+import com.recruiting.entity.PasswordResetToken;
+import com.recruiting.entity.User;
 import com.recruiting.handler.SecuritySuccessHandler;
 import com.recruiting.model.PasswordDTO;
 import com.recruiting.model.modelUtils.StringItemModel;

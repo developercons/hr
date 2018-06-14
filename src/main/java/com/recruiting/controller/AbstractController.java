@@ -1,6 +1,6 @@
 package com.recruiting.controller;
 
-import com.recruiting.domain.User;
+import com.recruiting.entity.User;
 import com.recruiting.service.entity.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

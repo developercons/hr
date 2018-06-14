@@ -1,6 +1,6 @@
 package com.recruiting.validation;
 
-import com.recruiting.domain.TimeOffType;
+import com.recruiting.entity.TimeOffType;
 import com.recruiting.utils.StringUtils;
 import com.recruiting.utils.ValidationPatternUtils;
 import org.springframework.beans.factory.annotation.Value;

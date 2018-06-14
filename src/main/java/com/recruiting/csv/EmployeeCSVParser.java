@@ -1,8 +1,8 @@
 package com.recruiting.csv;
 
-import com.recruiting.domain.Employee;
-import com.recruiting.domain.IndividualTimeOff;
-import com.recruiting.domain.TimeOffType;
+import com.recruiting.entity.Employee;
+import com.recruiting.entity.IndividualTimeOff;
+import com.recruiting.entity.TimeOffType;
 import com.recruiting.repository.EmployeeRepository;
 import com.recruiting.repository.IndividualTimeOffRepository;
 import com.recruiting.repository.TimeOffTypeRepository;

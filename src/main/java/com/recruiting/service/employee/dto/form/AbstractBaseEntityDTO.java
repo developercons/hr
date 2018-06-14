@@ -1,6 +1,6 @@
 package com.recruiting.service.employee.dto.form;
 
-import com.recruiting.domain.AbstractDomain;
+import com.recruiting.entity.AbstractDomain;
 
 /**
  * @author sergey, created on 11/17/17.

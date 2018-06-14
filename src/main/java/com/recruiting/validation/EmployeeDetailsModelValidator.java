@@ -1,6 +1,6 @@
 package com.recruiting.validation;
 
-import com.recruiting.domain.IndividualTimeOff;
+import com.recruiting.entity.IndividualTimeOff;
 import com.recruiting.service.employee.dto.model.EmployeeDetailsModel;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

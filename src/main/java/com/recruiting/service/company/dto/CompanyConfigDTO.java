@@ -1,8 +1,8 @@
 package com.recruiting.service.company.dto;
 
-import com.recruiting.domain.CompanyConfig;
-import com.recruiting.domain.TimeOffType;
-import com.recruiting.domain.WorkingHoursScheme;
+import com.recruiting.entity.CompanyConfig;
+import com.recruiting.entity.TimeOffType;
+import com.recruiting.entity.WorkingHoursScheme;
 
 import java.io.Serializable;
 

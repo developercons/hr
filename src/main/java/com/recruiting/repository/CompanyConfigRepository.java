@@ -1,6 +1,6 @@
 package com.recruiting.repository;
 
-import com.recruiting.domain.CompanyConfig;
+import com.recruiting.entity.CompanyConfig;
 
 /**
  * @author Marta Ginosyan

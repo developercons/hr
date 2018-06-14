@@ -1,6 +1,6 @@
 package com.recruiting.repository;
 
-import com.recruiting.domain.WorkingHoursScheme;
+import com.recruiting.entity.WorkingHoursScheme;
 
 /**
  * @author Marta Ginosyan

@@ -1,4 +1,4 @@
-package com.recruiting.domain;
+package com.recruiting.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.recruiting.converter.LocalDateTimeAttributeConverter;

@@ -1,7 +1,7 @@
 package com.recruiting.controller;
 
-import com.recruiting.domain.User;
-import com.recruiting.domain.VerificationToken;
+import com.recruiting.entity.User;
+import com.recruiting.entity.VerificationToken;
 import com.recruiting.model.modelUtils.StringItemModel;
 import com.recruiting.service.entity.UserService;
 import com.recruiting.utils.ConstantLabels;

@@ -1,6 +1,6 @@
 package com.recruiting.repository;
 
-import com.recruiting.domain.VerificationToken;
+import com.recruiting.entity.VerificationToken;
 
 /**
  * @author Marta Ginosyan

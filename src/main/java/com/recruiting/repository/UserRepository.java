@@ -1,6 +1,6 @@
 package com.recruiting.repository;
 
-import com.recruiting.domain.User;
+import com.recruiting.entity.User;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 

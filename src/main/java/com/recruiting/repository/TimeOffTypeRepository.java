@@ -1,6 +1,6 @@
 package com.recruiting.repository;
 
-import com.recruiting.domain.TimeOffType;
+import com.recruiting.entity.TimeOffType;
 
 import java.util.List;
 

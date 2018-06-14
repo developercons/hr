@@ -1,4 +1,4 @@
-package com.recruiting.domain.types;
+package com.recruiting.entity.types;
 
 
 /**

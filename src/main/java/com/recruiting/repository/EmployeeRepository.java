@@ -1,6 +1,6 @@
 package com.recruiting.repository;
 
-import com.recruiting.domain.Employee;
+import com.recruiting.entity.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

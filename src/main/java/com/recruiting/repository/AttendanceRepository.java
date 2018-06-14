@@ -1,6 +1,6 @@
 package com.recruiting.repository;
 
-import com.recruiting.domain.Attendance;
+import com.recruiting.entity.Attendance;
 
 /**
  * @author Marta Ginosyan

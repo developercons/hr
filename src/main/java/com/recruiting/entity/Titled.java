@@ -1,4 +1,4 @@
-package com.recruiting.domain;
+package com.recruiting.entity;
 
 /**
  * @author Marta Ginosyan

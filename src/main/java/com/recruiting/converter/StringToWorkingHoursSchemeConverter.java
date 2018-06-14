@@ -1,6 +1,6 @@
 package com.recruiting.converter;
 
-import com.recruiting.domain.WorkingHoursScheme;
+import com.recruiting.entity.WorkingHoursScheme;
 import com.recruiting.repository.WorkingHoursSchemeRepository;
 import com.recruiting.utils.StringUtils;
 import org.springframework.binding.convert.converters.InvalidFormatException;

@@ -1,6 +1,6 @@
 package com.recruiting.converter;
 
-import com.recruiting.domain.TimeOffType;
+import com.recruiting.entity.TimeOffType;
 import com.recruiting.service.entity.TimeOffService;
 import com.recruiting.utils.StringUtils;
 import org.springframework.binding.convert.converters.InvalidFormatException;

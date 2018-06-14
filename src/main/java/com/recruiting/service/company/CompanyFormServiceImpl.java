@@ -1,9 +1,9 @@
 package com.recruiting.service.company;
 
 import com.google.common.collect.Lists;
-import com.recruiting.domain.CompanyConfig;
-import com.recruiting.domain.TimeOffType;
-import com.recruiting.domain.WorkingHoursScheme;
+import com.recruiting.entity.CompanyConfig;
+import com.recruiting.entity.TimeOffType;
+import com.recruiting.entity.WorkingHoursScheme;
 import com.recruiting.repository.CompanyConfigRepository;
 import com.recruiting.repository.TimeOffTypeRepository;
 import com.recruiting.repository.WorkingHoursSchemeRepository;

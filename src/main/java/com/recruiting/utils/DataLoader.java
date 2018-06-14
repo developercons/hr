@@ -1,8 +1,8 @@
 package com.recruiting.utils;
 
 import com.recruiting.csv.EmployeeCSVParser;
-import com.recruiting.domain.*;
-import com.recruiting.domain.types.VacationDisposeType;
+import com.recruiting.entity.*;
+import com.recruiting.entity.types.VacationDisposeType;
 import com.recruiting.repository.*;
 import org.assertj.core.util.Lists;
 

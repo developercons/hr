@@ -1,6 +1,6 @@
 package com.recruiting.model.modelUtils;
 
-import com.recruiting.domain.AbstractTitledDomain;
+import com.recruiting.entity.AbstractTitledDomain;
 
 import java.io.Serializable;
 
