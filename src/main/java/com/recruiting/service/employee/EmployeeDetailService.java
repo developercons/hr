@@ -16,17 +16,17 @@ import java.util.Map;
 
 public interface EmployeeDetailService {
 
-    EmployeeModel getEmployeeModel(Long employeeId);
+    EmployeeModel getEmployeeModel(String employeeId);
 
-    EmployeeDetailsModel getEmployeeDetailsModel(Long employeeId);
+    EmployeeDetailsModel getEmployeeDetailsModel(String employeeId);
 
     Map<String, Long> getTimeOffSummaryForEmployee(Employee employee);
 
-    Map<String, Long> getTimeOffSummaryForEmployee(Long id);
+    Map<String, Long> getTimeOffSummaryForEmployee(String id);
 
-    EmployeeFullDetailsModel getEmployeeFullDetailsModel(Long employeeId);
+    EmployeeFullDetailsModel getEmployeeFullDetailsModel(String employeeId);
 
-    PageWrapper<IndividualTimeOff> getTimeOffsByEmployee(Long id, Pageable pageable);
+    PageWrapper<IndividualTimeOff> getTimeOffsByEmployee(String id, Pageable pageable);
 
 
 }

@@ -96,7 +96,7 @@ public class EmployeeController extends AbstractController {
     }
 
     @RequestMapping(value = "/time-off-request/delete/{id}", method = RequestMethod.GET)
-    public String deleteTimeOff(@PathVariable("id") Long id) {
+    public String deleteTimeOff(@PathVariable("id") String id) {
         timeOffService.deleteTimeOff(id);
         return "redirect:/employee";
     }

@@ -26,7 +26,7 @@ public class StringToWorkingHoursSchemeConverter extends StringToObject implemen
             return null;
         }
         try {
-            return workingHoursSchemeRepository.findOne(new Long(string));
+            return workingHoursSchemeRepository.findOne(string);
         } catch (Exception e) {
             throw new InvalidFormatException(string, "WorkingHoursScheme", e);
         }
@@ -44,6 +44,6 @@ public class StringToWorkingHoursSchemeConverter extends StringToObject implemen
 
     @Override
     public Object convert(Object source) {
-        return workingHoursSchemeRepository.findOne(new Long((String) source));
+        return workingHoursSchemeRepository.findOne((String) source);
     }
 }

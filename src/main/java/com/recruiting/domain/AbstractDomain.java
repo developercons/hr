@@ -1,6 +1,7 @@
 package com.recruiting.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -15,11 +16,12 @@ import java.util.Objects;
 @MappedSuperclass
 public class AbstractDomain implements Serializable{
 
-    // region Instance Fields
+//     region Instance Fields
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id")
-    protected Long id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "id", unique = true, nullable = false, updatable = false)
+    protected String id;
 
     @NaturalId
     @Column(name = "ssn")
@@ -63,8 +65,21 @@ public class AbstractDomain implements Serializable{
     // endregion
 
     // region Getters and Setters
-    public Long getId() {
+
+    public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getSsn() {
+        return ssn;
+    }
+
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -90,19 +105,6 @@ public class AbstractDomain implements Serializable{
     public void setRemoved(boolean removed) {
         this.removed = removed;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getSsn() {
-        return ssn;
-    }
-
-    public void setSsn(String ssn) {
-        this.ssn = ssn;
-    }
-
     // endregion
 
 

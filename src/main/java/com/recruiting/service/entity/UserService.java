@@ -18,7 +18,7 @@ public interface UserService extends UserDetailsService {
 
     User save(User user);
 
-    User approveUser(Long id);
+    User approveUser(String id);
 
     VerificationToken getVerificationToken(String token);
 
@@ -28,5 +28,5 @@ public interface UserService extends UserDetailsService {
 
     void savePasswordResetToken(PasswordResetToken passwordResetToken);
 
-    User findById(Long id);
+    User findById(String id);
 }

@@ -26,9 +26,9 @@ public class StringToTimeOffTypeConverter extends StringToObject implements Conv
             return null;
         }
         try {
-            return service.findById(new Long(string));
+            return service.findById(string);
         } catch (Exception e) {
-            throw new InvalidFormatException(string, "Industry", e);
+            throw new InvalidFormatException(string, "TimeOffType", e);
         }
     }
 
@@ -43,6 +43,6 @@ public class StringToTimeOffTypeConverter extends StringToObject implements Conv
 
     @Override
     public Object convert(Object source) {
-        return service.findById(new Long((String) source));
+        return service.findById((String) source);
     }
 }

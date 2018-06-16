@@ -1,5 +1,4 @@
 import com.recruiting.repository.UserRepository;
-import com.recruiting.service.entity.GenericCrudService;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,9 +28,6 @@ public class TestAuthentication {
 
     @Autowired
     ApplicationContext applicationContext;
-
-    @Autowired
-    GenericCrudService genericCrudService;
 
     @Autowired
     @Qualifier("userService")

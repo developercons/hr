@@ -5,7 +5,6 @@ import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import javax.sql.DataSource;
@@ -14,7 +13,7 @@ import javax.sql.DataSource;
  * @author Marta Ginosyan
  */
 
-@Configuration
+//@Configuration
 public class MigrationConfig {
 
     @Autowired

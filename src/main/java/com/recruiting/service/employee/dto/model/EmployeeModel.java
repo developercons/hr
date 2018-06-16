@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 public class EmployeeModel implements Serializable {
 
-    private Long employeeId;
+    private String employeeId;
     private String employeeName;
     private LocalDateTime joinDate;
     private LocalDateTime leaveDate;
@@ -22,11 +22,11 @@ public class EmployeeModel implements Serializable {
     private Double overALLDisposedVacationTaken;
 
 
-    public Long getEmployeeId() {
+    public String getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(Long employeeId) {
+    public void setEmployeeId(String employeeId) {
         this.employeeId = employeeId;
     }
 

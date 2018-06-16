@@ -95,39 +95,39 @@ public class AdminController extends AbstractController {
     }
 
     @RequestMapping(value = "/employee/time-off-details/{id}", method = RequestMethod.GET)
-    public String employeeTimeOffDetails(@PathVariable("id") Long id, Model model) {
+    public String employeeTimeOffDetails(@PathVariable("id") String id, Model model) {
         model.addAttribute("pageWrapper", employeeDetailService.getTimeOffsByEmployee(id, new PageRequest(0, 3)));
         model.addAttribute("employee", userService.findById(id));
         return "admin-employee-timeoffs-detail";
     }
 
     @RequestMapping(value = "/employee/time-off-details/next-page/{id}", method = RequestMethod.POST)
-    public String employeeTimeOffDetailsNextPage(@PathVariable("id") Long id, Model model, Pageable pageable) {
+    public String employeeTimeOffDetailsNextPage(@PathVariable("id") String id, Model model, Pageable pageable) {
         model.addAttribute("pageWrapper", employeeDetailService.getTimeOffsByEmployee(id, pageable));
         model.addAttribute("employee", userService.findById(id));
         return "admin-employee-timeoffs-detail";
     }
 
     @RequestMapping(value = "/employee/preview/{id}", method = RequestMethod.GET)
-    public String previewEmployeeTimeOffs(@PathVariable("id") Long id, Model model) {
+    public String previewEmployeeTimeOffs(@PathVariable("id") String id, Model model) {
         model.addAttribute("employeeMap", employeeDetailService.getTimeOffSummaryForEmployee(id));
         return "redirect:/admin/employees/time-off-requests/";
     }
 
     @RequestMapping(value = "/employees/time-off-request/approve/{id}", method = RequestMethod.GET)
-    public String approveTimeOff(@PathVariable("id") Long id) {
+    public String approveTimeOff(@PathVariable("id") String id) {
         timeOffService.approveTimeOff(id);
         return "redirect:/admin/employees/time-off-requests/";
     }
 
     @RequestMapping(value = "/employees/time-off/delete/{id}", method = RequestMethod.GET)
-    public String deleteTimeOff(@PathVariable("id") Long id) {
+    public String deleteTimeOff(@PathVariable("id") String id) {
         timeOffService.deleteTimeOff(id);
         return "redirect:/admin/employees/time-off-requests/";
     }
 
     @RequestMapping(value = "/employees/time-off/dispose/{id}", method = RequestMethod.GET)
-    public String disposeTimeOff(@PathVariable("id") Long id) {
+    public String disposeTimeOff(@PathVariable("id") String id) {
         timeOffService.disposeTimeOff(id);
         return "redirect:/admin/employees/time-off-requests/";
     }

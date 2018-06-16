@@ -51,7 +51,7 @@ public class EmployeeDetailServiceImpl implements EmployeeDetailService {
     private CompanyConfigRepository companyConfigRepository;
 
     @Override
-    public PageWrapper<IndividualTimeOff> getTimeOffsByEmployee(Long id, Pageable pageable) {
+    public PageWrapper<IndividualTimeOff> getTimeOffsByEmployee(String id, Pageable pageable) {
         Employee employee = employeeRepository.findOne(id);
         Sort.Order start = new Sort.Order(Sort.Direction.DESC, "start");
         Sort sort = new Sort(Lists.newArrayList(start));
@@ -66,7 +66,7 @@ public class EmployeeDetailServiceImpl implements EmployeeDetailService {
 
 
     @Override
-    public EmployeeModel getEmployeeModel(Long employeeId) {
+    public EmployeeModel getEmployeeModel(final String employeeId) {
         CompanyConfig companyConfig = companyConfigRepository.findFirstByIsActiveTrue();
         Double vacationPerMonth = companyConfig.getVacationPerMonth();
         Double validVacationPeriod = companyConfig.getValidVacationPeriod();
@@ -82,7 +82,7 @@ public class EmployeeDetailServiceImpl implements EmployeeDetailService {
     }
 
     @Override
-    public EmployeeDetailsModel getEmployeeDetailsModel(Long employeeId) {
+    public EmployeeDetailsModel getEmployeeDetailsModel(String employeeId) {
 
         CompanyConfig companyConfig = companyConfigRepository.findFirstByIsActiveTrue();
         Double vacationPerMonth = companyConfig.getVacationPerMonth();
@@ -105,7 +105,7 @@ public class EmployeeDetailServiceImpl implements EmployeeDetailService {
     }
 
     @Override
-    public EmployeeFullDetailsModel getEmployeeFullDetailsModel(Long employeeId) {
+    public EmployeeFullDetailsModel getEmployeeFullDetailsModel(String employeeId) {
         return null;
     }
 
@@ -131,7 +131,7 @@ public class EmployeeDetailServiceImpl implements EmployeeDetailService {
     }
 
     @Override
-    public Map<String, Long> getTimeOffSummaryForEmployee(Long id) {
+    public Map<String, Long> getTimeOffSummaryForEmployee(String id) {
         return getTimeOffSummaryForEmployee(employeeRepository.findOne(id));
     }
 }

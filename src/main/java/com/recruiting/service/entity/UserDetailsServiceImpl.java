@@ -68,7 +68,7 @@ public class UserDetailsServiceImpl implements UserService {
     }
 
     @Override
-    public User approveUser(Long id) {
+    public User approveUser(String id) {
         User user = userRepository.findOne(id);
         user.setApproved(true);
         Authority authority = authorityRepository.findByRole(user.getDtype().toUpperCase());
@@ -97,7 +97,7 @@ public class UserDetailsServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Long id) {
+    public User findById(String id) {
         return userRepository.findOne(id);
     }
 }

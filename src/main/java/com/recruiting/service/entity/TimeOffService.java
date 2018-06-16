@@ -16,7 +16,7 @@ public interface TimeOffService {
 
     List<TimeOffType> getTimeOffTypes();
 
-    TimeOffType findById(Long id);
+    TimeOffType findById(String id);
 
 
     void saveIndividualTimeOff(IndividualTimeOff individualTimeOff);
@@ -25,9 +25,9 @@ public interface TimeOffService {
 
     PageWrapper<IndividualTimeOff> getNotApprovedTimeOffRequests(User user, Pageable pageable);
 
-    void approveTimeOff(Long id);
+    void approveTimeOff(String id);
 
-    void disposeTimeOff(Long id);
+    void disposeTimeOff(String id);
 
-    void deleteTimeOff(Long id);
+    void deleteTimeOff(String id);
 }

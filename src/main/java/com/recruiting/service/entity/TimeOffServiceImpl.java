@@ -32,7 +32,7 @@ public class TimeOffServiceImpl implements TimeOffService {
     }
 
     @Override
-    public TimeOffType findById(Long id) {
+    public TimeOffType findById(String id) {
         return timeOffTypeRepository.findOne(id);
     }
 
@@ -65,7 +65,7 @@ public class TimeOffServiceImpl implements TimeOffService {
     }
 
     @Override
-    public void approveTimeOff(Long id) {
+    public void approveTimeOff(String id) {
         IndividualTimeOff individualTimeOff = individualTimeOffRepository.findOne(id);
         individualTimeOff.setApproved(true);
         individualTimeOffRepository.save(individualTimeOff);
@@ -73,7 +73,7 @@ public class TimeOffServiceImpl implements TimeOffService {
     }
 
     @Override
-    public void disposeTimeOff(Long id) {
+    public void disposeTimeOff(String id) {
         IndividualTimeOff individualTimeOff = individualTimeOffRepository.findOne(id);
         if (!individualTimeOff.getReason()
                 .getDisposableFromVacation()) {
@@ -87,7 +87,7 @@ public class TimeOffServiceImpl implements TimeOffService {
     }
 
     @Override
-    public void deleteTimeOff(Long id) {
+    public void deleteTimeOff(String id) {
         IndividualTimeOff individualTimeOff = individualTimeOffRepository.findOne(id);
         individualTimeOffRepository.delete(individualTimeOff);
 
