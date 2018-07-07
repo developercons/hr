@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -46,8 +47,11 @@ public class DBConfig {
         dataSourceProperties.setProperty("password", "postgres");
 
         hikariConfig.setDataSourceProperties(dataSourceProperties);
+        hikariConfig.setDriverClassName("org.postgresql.Driver");
 
-            return new HikariDataSource(hikariConfig);
+        final HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
+        hikariDataSource.getHikariPoolMXBean().softEvictConnections();
+        return hikariDataSource;
     }
 
     @Bean
@@ -58,12 +62,25 @@ public class DBConfig {
     }
 
     @Bean
+    public HibernateJpaVendorAdapter jpaVendorAdapter() {
+
+        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+
+        hibernateJpaVendorAdapter.setDatabase(Database.POSTGRESQL);
+        hibernateJpaVendorAdapter.setDatabasePlatform("org.hibernate.dialect.PostgreSQLDialect");
+        hibernateJpaVendorAdapter.setGenerateDdl(true);
+        hibernateJpaVendorAdapter.setPrepareConnection(true);
+        hibernateJpaVendorAdapter.setShowSql(true);
+
+        return hibernateJpaVendorAdapter;
+    }
+
+
+    @Bean
     public EntityManagerFactory entityManagerFactory(DataSource dataSource) {
-        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setGenerateDdl(true);
 
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
-        localContainerEntityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
+        localContainerEntityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter());
         localContainerEntityManagerFactoryBean.setPackagesToScan("com.recruiting");
         localContainerEntityManagerFactoryBean.setDataSource(dataSource);
 
@@ -72,12 +89,13 @@ public class DBConfig {
         properties.put("hibernate.show_sql", true);
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
         properties.put("hibernate.globally_quoted_identifiers", true);
-        properties.put("hibernate.cache.use_query_cache", true);
-        properties.put("hibernate.cache.region.factory_class", "org.hibernate.cache.jcache.JCacheRegionFactory");
-        properties.put("hibernate.javax.cache.provider","rg.ehcache.jsr107.EhcacheCachingProvider");
-        properties.put("hibernate.javax.cache.uri", "ehCacheUri");
+//        properties.put("hibernate.cache.use_query_cache", true);
+//        properties.put("hibernate.cache.region.factory_class", "org.hibernate.cache.jcache.JCacheRegionFactory");
+//        properties.put("hibernate.javax.cache.provider","rg.ehcache.jsr107.EhcacheCachingProvider");
+//        properties.put("hibernate.javax.cache.uri", "ehCacheUri");
 
         localContainerEntityManagerFactoryBean.setJpaProperties(properties);
+        localContainerEntityManagerFactoryBean.afterPropertiesSet();
 
         return localContainerEntityManagerFactoryBean.getObject();
     }

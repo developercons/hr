@@ -12,7 +12,7 @@ import java.io.Serializable;
  * Date: 10/22/17
  */
 @Entity
-@Table(name = "time_off_reason")
+@Table(name = "time_off_type")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TimeOffType extends AbstractTitledDomain implements Serializable, Titled {
 
